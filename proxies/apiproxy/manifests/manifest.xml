@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest name="manifest">
+    <Policies>
+        <VersionInfo resourceName="Monetization-Limits-Check" version="SHA-512:0771d39f11814379fb01277f86bb34d876cfbb17883b8ed465cd2b5d1d318f815cabd6088edbc94698c6da716267b6466494e4b1af14ed5f9738b8f82a002073"/>
+        <VersionInfo resourceName="Set-Variable-Success-Transaction" version="SHA-512:14750a2ade39a94d9644348e8bd91156ae141e28c26440dedd61eaa39b384759c71be4e9c2e0548646fa2155abc57b322db62e01ace9d29177cc423574d4bfad"/>
+        <VersionInfo resourceName="Spike-Arrest" version="SHA-512:5fe174a28e58909a4a09ab846e015883d48637cf7baf7311e86088aa99dd8cbfb93cf61cff387944fc20f24b519882764ed0538e5225038d14cf0a662a1c5226"/>
+        <VersionInfo resourceName="Verify-API-Key" version="SHA-512:f55be0cbd632aee405b2bc1dea5629eb638038d82bea4c20ceb2ba0474fd5ae154a522b852f7e3016a54ecf7676f357c3e395565cae16ae59b37b0f423d36ae3"/>
+    </Policies>
+    <ProxyEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:92a88ed9162bfde3d5ff99a2bb0889dfbd090a35be15f96b829a141cea6c243016cdf317b86f01a5dea0474d82335e2a0a16de4ce8ccc72ff96e019ba88a9fc8"/>
+    </ProxyEndpoints>
+    <Resources>
+        <VersionInfo resourceName="openapi://association.json" version="SHA-512:88af7ec64030496b8d60bff05859b264db0964bc84ed604fe35b3753f45f70c48b09d4977c40641d88fa7c51f42b3edbfec22d376046d8b691ab286fa4e8fbca"/>
+    </Resources>
+    <SharedFlows/>
+    <TargetEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:868f49a8a5545ae4b02c56a3ce38d3f0fc91cfa71f97c1e0138d0681fd037c89216a17a0b8b5f86c8d7da05d7fdcb7d7c72512bc86dcc50320ba6af14658824d"/>
+    </TargetEndpoints>
+</Manifest>

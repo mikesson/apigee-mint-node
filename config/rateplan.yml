@@ -1,0 +1,59 @@
+---
+published: false
+advance: false
+type: STANDARD
+startDate: '2019-05-31 14:00:00'
+endDate: '2019-06-05 00:00:00'
+recurringStartUnit: 1
+recurringType: CALENDAR
+setUpFee: 100
+earlyTerminationFee: 0
+recurringFee: 0
+frequencyDuration: 1
+frequencyDurationType: MONTH
+prorate: true
+contractDuration: 1
+contractDurationType: MONTH
+isPrivate: false
+organization: '!INCLUDE{apigee-org}' # set during runtime
+currency:
+  id: '!INCLUDE{currency-id}' # set during runtime
+monetizationPackage: '!INCLUDE{product-bundle-id}' # set during runtime
+displayName: 'Kickstart Plan'
+name: 'Kickstart Plan'
+description: 'Kickstart Plan'
+paymentDueDays: '30' 
+id: # not required
+freemiumUnit: 1000
+ratePlanDetails:
+- aggregateFreemiumCounters: true
+  aggregateStandardCounters: true
+  aggregateTransactions: true
+  customPaymentTerm: true
+  meteringType: VOLUME
+  organization:
+    id: '!INCLUDE{apigee-org}' # set during runtime
+  currency:
+    id: '!INCLUDE{currency-id}' # set during runtime
+  ratePlanRates:
+  - startUnit: 0
+    endUnit: 100
+    rate: 0.05
+    type: RATECARD
+  - startUnit: 100
+    endUnit: 10000
+    rate: 0.025
+    type: RATECARD
+  - startUnit: 10000
+    endUnit: 1000000
+    rate: 0.0125
+    type: RATECARD
+  ratingParameter: VOLUME
+  duration: 1
+  durationType: MONTH
+  type: RATECARD
+  revenueType: NET
+  freemiumDuration: 0
+  freemiumDurationType: MONTH
+  freemiumUnit: 0
+  paymentDueDays: '30'

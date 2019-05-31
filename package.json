@@ -1,0 +1,27 @@
+{
+  "name": "mint-cli",
+  "version": "1.0.0",
+  "description": "Command-Line Utility for Apigee Monetization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "m10n": "bin/m10n"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "apigeetool": "^0.10.0",
+    "axios": "^0.18.0",
+    "chalk": "^2.4.2",
+    "figlet": "^1.2.1",
+    "figures": "^3.0.0",
+    "fs": "0.0.1-security",
+    "js-yaml": "^3.13.1",
+    "minimist": "^1.2.0",
+    "ora": "^3.1.0",
+    "path": "^0.12.7",
+    "winston": "^3.2.1"
+  }
+}

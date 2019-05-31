@@ -1,0 +1,24 @@
+# API PRODUCT CONFIGURATION WITH TRANSACTIONRECORDINGPOLICIES
+---
+name: "mint-kickstart-api-product-v1"
+displayName: "Mint Kickstart API Product v1"
+approvalType: auto
+attributes:
+- name: access
+  value: public
+- name: MINT_TRANSACTION_SUCCESS_CRITERIA
+  value: txProviderStatus == 'OK'
+- name: transactionRecordingPolicies
+  # to be included from other yaml's
+  value: "!INCLUDE{transactionRecordingPaths.yml}"
+description: "Sample Monetization API Product"
+apiResources:
+- "/"
+- "/**"
+environments:
+- test
+# Keep as-is or rename if you name the API proxy differently
+proxies:
+- "m10n-kickstart-v1"
+scopes:
+- ''

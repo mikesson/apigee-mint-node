@@ -1,0 +1,10 @@
+- 
+  name: "/"
+  policies: 
+    request: []
+    response: "!INCLUDE{transactionRecordingPolicy.yml}"
+- 
+  name: "/**"
+  policies: 
+    request: []
+    response: "!INCLUDE{transactionRecordingPolicy.yml}"

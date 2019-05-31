@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="m10n-kickstart-v1">
+    <Basepaths>/m10n-kickstart/v1</Basepaths>
+    <Basepaths>/m10n-kickstart/v1</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1556699483441</CreatedAt>
+    <CreatedBy>defaultUser</CreatedBy>
+    <Description>Sample Kickstart API Proxy for Monetization</Description>
+    <DisplayName>M10n Kickstart v1</DisplayName>
+    <LastModifiedAt>1556699665713</LastModifiedAt>
+    <LastModifiedBy>defaultUser</LastModifiedBy>
+    <ManifestVersion>SHA-512:a5be7dace8152a9872ae90e7d20bff7f7aa0e9bf90544b4213264b15b6ad1c8d9c70472632f60b4e04efa85246b18530385e6168247a3435d15f02f9f486bf04</ManifestVersion>
+    <Policies>
+        <Policy>Monetization-Limits-Check</Policy>
+        <Policy>Set-Variable-Success-Transaction</Policy>
+        <Policy>Spike-Arrest</Policy>
+        <Policy>Verify-API-Key</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>openapi://association.json</Resource>
+    </Resources>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

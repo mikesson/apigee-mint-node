@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="Set-Variable-Success-Transaction">
+    <DisplayName>Set-Variable-Success-Transaction</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <AssignVariable>
+        <Name>transactionGatekeeper</Name>
+        <Value>OK</Value>
+        <Ref></Ref>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo type="request" transport="http" createNew="false"></AssignTo>
+</AssignMessage>

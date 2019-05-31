@@ -1,0 +1,27 @@
+# The M10n Transaction Recording Policy, to be inserted in the response flow by default
+---
+async: false
+continueOnError: false
+displayName: Transaction Policy
+enabled: true
+faultRules: []
+extractions:
+- Variable:
+    # the target variable from the product bundle UI config
+    name: transactionGatekeeper
+    pattern:
+    - ignoreCase: true
+      value: "{mint.tx.status}"
+ignoreUnresolvedVariables: true
+name: "/"
+policyType: ExtractVariables
+source:
+  clearPayload: false
+  value: response
+jSONPayload:
+  variable: []
+xMLPayload:
+  variable: []
+  namespaces: []
+  stopPayloadProcessing: false
+variablePrefix: apigee
