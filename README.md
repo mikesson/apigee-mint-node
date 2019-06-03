@@ -45,22 +45,26 @@ If you are familiar with the monetization settings, you can edit all configurati
 ### Examples
 
 Executes kickstart configuration for specified organization and environment, considering existing settings ([What does that mean?](#Parameters))
+
 ```./mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
 
 Executes kickstart configuration for specified organization and environment, overwriting/ignoring existing settings 
+
 ```./mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
 
 
 ### Parameters
 
-## ```--considerExistingSettings -c```
+***```--considerExistingSettings -c```***
 
+(optional, `true/false`, default: `true`)
+As the kickstart command modifies a range of settings from the _organization profile_ over to _currencies_ and _T&Cs_, you can choose to (a) overwrite all settings or (b) keep them and add the proxy, product and bundle to your existing configuration.
 
-
+Choose `false` if you run this command on a clean/empty environment, choose `true` if you have already run this command before or if you would like to keep your existing org settings. ***Please be aware*** that config file changes might be necessary in order for the kickstart setup to work (e.g. clash of supported currencies).
 
 ### Details
 
-
+_TBD - detailed configuration sequence explained_
 
 ## do
 
@@ -70,19 +74,32 @@ Performs common CRUD operations on Monetization resources such as
 
 ### Examples
 
+First, list the resources (returns IDs)
+
 ```./mint do -a list -r productbundle -l info```
+
+Second, delete the chosen resource by specifying its ID
+
 ```./mint do -a delete -r productbundle -i <id_of_bundle> -l info```
 
 ### Parameters
 
+***```--action -a```***
+
+(required, `list/delete`, default: `N/A`)
+The action you want to perform.
+
+***```--resource -r```***
+
+(required, `apiproxy/apiproduct/productbundle/rateplan`, default: `N/A`)
+The resource type you want to perform the action on.
+
+***```--id -i```***
+
+(required, `<id of a specific resource>`, default: `N/A`)
+The ID of a specified resource you want to perform the action on.
 
 
 ### Details
 
-
-# Sample commands
-
-// do actions
-./bin/mint do -a list -r productbundle --logLevel info
-./bin/mint do -a list -r rateplans
 
