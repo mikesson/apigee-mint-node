@@ -39,7 +39,7 @@ The parameters below are used across all operations. For more specific parameter
 
 ## kickstart
 
-Deploys a chain of entities for a read-to-use sample configuration. This command makes use of the `/config` directory where all YML files reside.
+Deploys a chain of entities for a ready-to-use sample configuration. This command makes use of the `/config` directory where all YML files reside.
 If you are familiar with the monetization settings, you can edit all configuration files.
 
 ### Examples
