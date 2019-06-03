@@ -1,4 +1,11 @@
-# Apigee Mint CLI / Node.js
+# Mint - Apigee Monetization Node.js tool
+
+This tool allows you to interact with Apigee Monetization settings and entities through automated scripts and YML config files.
+
+
+#Installation
+
+
 
 # Sample commands
 
