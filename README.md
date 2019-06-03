@@ -29,6 +29,12 @@ You should be aware of the [Monetization concepts](https://docs.apigee.com/api-p
 --organization -o (required) The name of the organization to deploy to. May be set as an environment variable APIGEE_ORGANIZATION.
 
 
+|Parameter      | Description   | Env. Variable | Required?
+|---------------| --------------| --------------|------------|
+| `--username -u` | Your Apigee account username | `APIGEE_USERNAME` | Yes |
+| `--password -p` | Your Apigee account password | `APIGEE_PASSWORD` | Yes |
+| `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes |
+
 
 # Commands
 
