@@ -55,12 +55,12 @@ Executes kickstart configuration for specified organization and environment, ove
 
 ### Parameters
 
-***```--considerExistingSettings -c```***
+**```--considerExistingSettings -c```**
 
 (optional, `true/false`, default: `true`)
 As the kickstart command modifies a range of settings from the _organization profile_ over to _currencies_ and _T&Cs_, you can choose to (a) overwrite all settings or (b) keep them and add the proxy, product and bundle to your existing configuration.
 
-Choose `false` if you run this command on a clean/empty environment, choose `true` if you have already run this command before or if you would like to keep your existing org settings. ***Please be aware*** that config file changes might be necessary in order for the kickstart setup to work (e.g. clash of supported currencies).
+Choose `false` if you run this command on a clean/empty environment, choose `true` if you have already run this command before or if you would like to keep your existing org settings. **Please be aware** that config file changes might be necessary in order for the kickstart setup to work (e.g. clash of supported currencies).
 
 ### Details
 
