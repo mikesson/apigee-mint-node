@@ -89,3 +89,15 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+
+# VS Code
+# =======
+
+.vscode/
+
+
+# iOS
+# =======
+
+.DS_Store
