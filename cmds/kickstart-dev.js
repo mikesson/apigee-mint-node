@@ -34,7 +34,7 @@ let APIGEE_PROXY_NAME;
 // --env -e (required) The target environment to deploy the kickstart assets to (dev/test/prod)
 //--considerExistingSettings -c (optional, defaults to 'true') (true/false) consider existing monetization settings or simply add all necessary configurations on top of what you already have or a clean environment
 //--configCurrency --configOrgProfile --configTCs --configApiProduct file directories, default is config/<file>.yml (all optional)
-// --proxyName (optional) name the proxy, otherwise defaulting to 'm10n-kickstart-v1'
+// --proxyName (optional) name the proxy, otherwise defaulting to 'mint-kickstart-v1'
 //--logLevel -l (optional, defaults to 'info') log level alternatively to LOG_LEVEL env variable, defaults to info
 
 

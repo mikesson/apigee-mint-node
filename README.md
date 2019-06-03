@@ -24,28 +24,65 @@ You should be aware of the [Monetization concepts](https://docs.apigee.com/api-p
 
 # Common Parameters
 
---username -u (required) Your Apigee account username. May be set as an environment variable APIGEE_USERNAME.
---password -p (required) Your Apigee account password. May be set as an environment variable APIGEE_PASSWORD.
---organization -o (required) The name of the organization to deploy to. May be set as an environment variable APIGEE_ORGANIZATION.
-
+The parameters below are used across all operations. For more specific parameters, please refer to the commands list below.
 
 |Parameter      | Description   | Env. Variable | Required?
 |---------------| --------------| --------------|------------|
 | `--username -u` | Your Apigee account username | `APIGEE_USERNAME` | Yes |
 | `--password -p` | Your Apigee account password | `APIGEE_PASSWORD` | Yes |
 | `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes |
+| `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional |
 
 
 # Commands
 
 
-# Sample commands
+## kickstart
 
-./bin/mint kickstart-dev --env test --logLevel silly
+Deploys a chain of entities for a read-to-use sample configuration. This command makes use of the `/config` directory where all YML files reside.
+If you are familiar with the monetization settings, you can edit all configuration files.
+
+### Examples
+
+Executes kickstart configuration for specified organization and environment, considering existing settings ([What does that mean?](#Parameters))
+```./mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
+
+Executes kickstart configuration for specified organization and environment, overwriting/ignoring existing settings 
+```./mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
+
+
+### Parameters
+
+## ```--considerExistingSettings -c```
+
+
+
+
+### Details
+
+
+
+## do
+
+Performs common CRUD operations on Monetization resources such as
+-- listing entity IDS
+-- removing entities
+
+### Examples
+
+```./mint do -a list -r productbundle -l info```
+```./mint do -a delete -r productbundle -i <id_of_bundle> -l info```
+
+### Parameters
+
+
+
+### Details
+
+
+# Sample commands
 
 // do actions
 ./bin/mint do -a list -r productbundle --logLevel info
 ./bin/mint do -a list -r rateplans
 
-// kickstart setup 
-./bin/mint kickstart-dev -e test -l info -c true
