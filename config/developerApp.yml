@@ -1,0 +1,12 @@
+---
+name: "kickstart-developer-app"
+apiProducts:
+- mint-kickstart-api-product-v1
+keyExpiresIn: -1
+attributes:
+- name: DisplayName
+  value: Kickstart Developer App
+- name: Notes
+  value: Developer App created as part of the Mint Kickstart setup
+scopes: []
+callbackUrl: https://url-for-3-legged.oauth/callback

@@ -27,6 +27,7 @@ let PASS;
 let ORG;
 let ENV;
 let APIGEE_PROXY_NAME;
+let CONFIGDIR;
 
 //--organization -o (required) The name of the organization to deploy to. May be set as an environment variable APIGEE_ORGANIZATION.
 //--password -p (required) Your Apigee account password. May be set as an environment variable APIGEE_PASSWORD.
@@ -36,6 +37,7 @@ let APIGEE_PROXY_NAME;
 //--configCurrency --configOrgProfile --configTCs --configApiProduct file directories, default is config/<file>.yml (all optional)
 // --proxyName (optional) name the proxy, otherwise defaulting to 'mint-kickstart-v1'
 //--logLevel -l (optional, defaults to 'info') log level alternatively to LOG_LEVEL env variable, defaults to info
+// --directory -d (optional, defaults to 'config/', sets the directory of the config files)
 
 
 let CONSIDER_EXISTING_SETTINGS = (process.env.CONSIDER_EXISTING_SETTINGS) ? process.env.CONSIDER_EXISTING_SETTINGS : 'yes'
@@ -66,6 +68,13 @@ module.exports = async (args) => {
       process.exit()
     }
 
+    if (args.d || args.directory) {
+      CONFIGDIR = (args.d) ? args.d : args.directory;
+    }else{
+      CONFIGDIR = 'config/'
+      logger.debug('config dir not found in args, therefore defaulting to "' + CONFIGDIR + '"')
+    }
+
     if (args.proxyName) {
       APIGEE_PROXY_NAME = proxyName;
       logger.debug('proxy name found in args: "' + APIGEE_PROXY_NAME + '"')
@@ -77,38 +86,43 @@ module.exports = async (args) => {
     logger.debug('considerExistingSettings: ' + CONSIDER_EXISTING_SETTINGS);
     logger.debug('current working directory: ' + process.cwd());
 
-    var rootDir = 'config/'
 
-    var dirOrgProfileConfig = 'config/orgProfile.yml' // set defaults
-    var dirTCsConfig = 'config/termsAndConditions.yml' 
-    var dirCurrencyConfig = 'config/currency.yml'
-    var dirAPIProductConfig = 'config/apiproduct-mint.yml'
+
+    var dirOrgProfileConfig = CONFIGDIR + 'orgProfile.yml' // set defaults
+    var dirTCsConfig = CONFIGDIR + 'termsAndConditions.yml' 
+    var dirCurrencyConfig = CONFIGDIR + 'currency.yml'
+    var dirAPIProductConfig = CONFIGDIR + 'apiproduct-mint.yml'
+
+    var dirDeveloperConfig = CONFIGDIR + 'developer.yml'
+    var dirDeveloperAppConfig = CONFIGDIR + 'developerApp.yml'
+    var dirPurchaseRatePlanConfig = CONFIGDIR + 'purchaseRatePlan.yml'
+    var dirReloadAccountBalanceConfig = CONFIGDIR + 'reloadAccountBalance.yml'
 
     var TRPathsConfig = 'transactionRecordingPaths.yml' // ++
     var TRPolicyConfig =  'transactionRecordingPolicy.yml' // ++
     var ratePlanConfig = 'rateplan.yml'
-    var dirRatePlanConfig = rootDir + ratePlanConfig
-    var dirTRPathsConfig = rootDir + TRPathsConfig// not configurable as variable yet // ++
-    var dirTRPolicyConfig = rootDir + TRPolicyConfig // not configurable as variable yet // ++
-    var dirAPIProductBundleConfig = 'config/productbundle.yml'
+    var dirRatePlanConfig = CONFIGDIR + ratePlanConfig
+    var dirTRPathsConfig = CONFIGDIR + TRPathsConfig
+    var dirTRPolicyConfig = CONFIGDIR + TRPolicyConfig
+    var dirAPIProductBundleConfig = CONFIGDIR+ 'productbundle.yml'
 
 
-    // if in argument, replace
-    if (args.configOrgProfile) {
-      dirOrgProfileConfig = args.configOrgProfile
-    }
-    if (args.configCurrency) {
-      dirCurrencyConfig = args.configCurrency
-    }
-    if (args.configTCs) {
-      dirTCsConfig = args.configTCs
-    }
-    if (args.configApiProduct) {
-      dirAPIProductConfig = args.configApiProduct
-    }
-    if (args.configApiBundle) {
-      dirAPIProductBundleConfig = args.configApiBundle
-    }
+    // if in argument, replace (deprecate that! config dir is enough, too many files!)
+    // if (args.configOrgProfile) {
+    //   dirOrgProfileConfig = args.configOrgProfile
+    // }
+    // if (args.configCurrency) {
+    //   dirCurrencyConfig = args.configCurrency
+    // }
+    // if (args.configTCs) {
+    //   dirTCsConfig = args.configTCs
+    // }
+    // if (args.configApiProduct) {
+    //   dirAPIProductConfig = args.configApiProduct
+    // }
+    // if (args.configApiBundle) {
+    //   dirAPIProductBundleConfig = args.configApiBundle
+    // }
 
     // 1. Step - Load config files
     var configOrgProfile = yaml.safeLoad(fs.readFileSync(dirOrgProfileConfig, 'utf8'))
@@ -119,18 +133,22 @@ module.exports = async (args) => {
     logger.silly(JSON.stringify(configTCs, null, 4))
     var configApiProduct = yaml.safeLoad(fs.readFileSync(dirAPIProductConfig), 'utf8')
     logger.silly(JSON.stringify(configApiProduct, null, 4))
-
-
-    var configTRPaths = yaml.safeLoad(fs.readFileSync(dirTRPathsConfig), 'utf8') // ++
-    logger.silly(JSON.stringify(configTRPaths, null, 4)) // ++
-    var configTRPolicy = yaml.safeLoad(fs.readFileSync(dirTRPolicyConfig), 'utf8') // ++
-    logger.silly(JSON.stringify(configTRPolicy, null, 4)) // ++
-
-
+    var configTRPaths = yaml.safeLoad(fs.readFileSync(dirTRPathsConfig), 'utf8')
+    logger.silly(JSON.stringify(configTRPaths, null, 4))
+    var configTRPolicy = yaml.safeLoad(fs.readFileSync(dirTRPolicyConfig), 'utf8')
+    logger.silly(JSON.stringify(configTRPolicy, null, 4))
     var configApiProductBundle = yaml.safeLoad(fs.readFileSync(dirAPIProductBundleConfig), 'utf8') 
     logger.silly(JSON.stringify(configApiProductBundle, null, 4))
-    var configRatePlan = yaml.safeLoad(fs.readFileSync(dirRatePlanConfig), 'utf8') // ++
-    logger.silly(JSON.stringify(configRatePlan, null, 4)) // ++
+    var configRatePlan = yaml.safeLoad(fs.readFileSync(dirRatePlanConfig), 'utf8')
+    logger.silly(JSON.stringify(configRatePlan, null, 4))
+    var configDeveloper = yaml.safeLoad(fs.readFileSync(dirDeveloperConfig), 'utf8')
+    logger.silly(JSON.stringify(configDeveloper, null, 4))
+    var configDeveloperApp = yaml.safeLoad(fs.readFileSync(dirDeveloperAppConfig), 'utf8')
+    logger.silly(JSON.stringify(configDeveloperApp, null, 4))
+    var configPurchaseRatePlan = yaml.safeLoad(fs.readFileSync(dirPurchaseRatePlanConfig), 'utf8')
+    logger.silly(JSON.stringify(configPurchaseRatePlan, null, 4))
+    var configReloadAccountBalance = yaml.safeLoad(fs.readFileSync(dirReloadAccountBalanceConfig), 'utf8')
+    logger.silly(JSON.stringify(configReloadAccountBalance, null, 4))
 
 
     logger.info(figures('✔︎ ') + 'Configuration files found and loaded')
@@ -182,7 +200,6 @@ module.exports = async (args) => {
       logger.error(figures('◼ ') + '[kickstart setup failed]')
       process.exit()
     }
-
 
 
     logger.info(figures('✔︎ ') + 'Validation Complete')
@@ -325,12 +342,11 @@ module.exports = async (args) => {
       });
 
 
-
     // 4. Create API Product
 
     // 4.1 Compose API Product (done above already)
 
-    // 4.2 Callout // ++
+    // 4.2 Callout
     const responseAPIProduct = await apicaller.createAPIProduct(configApiProduct)
     logger.debug('response status (createAPIProduct()) is ' + responseAPIProduct.status)
     logger.debug('response is:')
@@ -342,7 +358,7 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'API Product created')
 
 
-    // 5. Create API Product Bundle // ++
+    // 5. Create API Product Bundle
     const responseAPIProductBundle = await apicaller.createAPIProductBundle(configApiProductBundle)
     logger.debug('response status (createAPIProductBundle()) is ' + responseAPIProductBundle.status)
     logger.debug('response is:')
@@ -354,7 +370,7 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'API Product Bundle created')
 
 
-    //6. Create Rate Plan
+    // 6. Create Rate Plan
 
     // 6.1 Set Rate Plan dynamic fields to complete config
     configRatePlan.monetizationPackage = responseAPIProductBundle.data.id
@@ -379,6 +395,42 @@ module.exports = async (args) => {
 
 
     process.exit()
+
+    // 7. Create Developer
+
+
+
+
+
+    // 8. Create Developer App
+
+
+
+
+    // 9. Add Balance to Funds
+
+
+
+
+    // 10. Purchase Rate Plan
+
+
+
+
+    // 11. Hit Monetized API
+
+
+
+
+    // 12. Check Balance is Reduced
+
+
+
+
+    // 13. Summary of created entities
+
+
+    
 
 
   } catch (err) {

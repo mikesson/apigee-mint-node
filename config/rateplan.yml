@@ -8,7 +8,7 @@ recurringStartUnit: 1
 recurringType: CALENDAR
 setUpFee: 100
 earlyTerminationFee: 0
-recurringFee: 0
+recurringFee: 0 q
 frequencyDuration: 1
 frequencyDurationType: MONTH
 prorate: true

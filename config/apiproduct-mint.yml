@@ -9,8 +9,7 @@ attributes:
 - name: MINT_TRANSACTION_SUCCESS_CRITERIA
   value: txProviderStatus == 'OK'
 - name: transactionRecordingPolicies
-  # to be included from other yaml's
-  value: "!INCLUDE{transactionRecordingPaths.yml}"
+  value: "!INCLUDE{transactionRecordingPaths.yml}" # populated during runtime
 description: "Sample Monetization API Product"
 apiResources:
 - "/"
