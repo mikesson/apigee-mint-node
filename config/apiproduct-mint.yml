@@ -16,8 +16,8 @@ apiResources:
 - "/**"
 environments:
 - test
-# Keep as-is or rename if you name the API proxy differently
 proxies:
+# Keep as-is or rename if you name the API proxy differently
 - "m10n-kickstart-v1"
 scopes:
 - ''

@@ -1,30 +1,28 @@
 ---
-published: false
+published: true
 advance: false
 type: STANDARD
-startDate: '2019-05-31 14:00:00'
-endDate: '2019-06-05 00:00:00'
+startDate: '2019-06-07 00:00:00'
+endDate: '2019-06-10 00:00:00'
 recurringStartUnit: 1
 recurringType: CALENDAR
 setUpFee: 100
 earlyTerminationFee: 0
-recurringFee: 0 q
+recurringFee: 0
 frequencyDuration: 1
 frequencyDurationType: MONTH
 prorate: true
 contractDuration: 1
 contractDurationType: MONTH
 isPrivate: false
-organization: '!INCLUDE{apigee-org}' # set during runtime
 currency:
   id: '!INCLUDE{currency-id}' # set during runtime
-monetizationPackage: '!INCLUDE{product-bundle-id}' # set during runtime
-displayName: 'Kickstart Plan'
-name: 'Kickstart Plan'
-description: 'Kickstart Plan'
+displayName: 'Kickstart Plan v13'
+name: 'Kickstart Plan v13'
+description: 'Kickstart Plan v13'
 paymentDueDays: '30' 
 id: # not required
-freemiumUnit: 1000
+freemiumUnit: 0
 ratePlanDetails:
 - aggregateFreemiumCounters: true
   aggregateStandardCounters: true

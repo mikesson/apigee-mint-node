@@ -105,6 +105,29 @@ module.exports = {
         return results;
       },
 
+      getDeveloperUsage: async (devId) => {
+        const results = await axios({
+          method: 'get',
+          url: 'https://api.enterprise.apigee.com/v1/mint/organizations/' + ORG + '/developers/' + devId + '/developer-balances',
+          params: {
+            format: 'json'
+          }
+        })
+        return results;
+      },
+
+
+      executeTestCall: async (targetUrl) => {
+        const results = await axios({
+          method: 'get',
+          url: targetUrl,
+          params: {
+            format: 'json'
+          }
+        })
+        return results;
+      },
+
       addTermsAndConditions: async (payload) => {
         const results = await axios({
           method: 'post',
@@ -159,6 +182,11 @@ module.exports = {
         return results;
       },
 
+
+
+
+
+
       createAPIProductBundle: async (payload) => {
         const results = await axios({
           method: 'post',
@@ -194,6 +222,92 @@ module.exports = {
             logger.error(figures('✖ ') + 'Error when creating API rate plan, find more details below:')
             logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
             // if(error.response.data.code == 'mint.resourceAlreadyExists'){
+            //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
+            // }
+            process.exit()
+          } 
+        })
+        return results;
+      },
+
+
+      createDeveloper: async (payload) => {
+        const results = await axios({
+          method: 'post',
+          url: 'https://api.enterprise.apigee.com/v1/organizations/' + ORG + '/developers',
+          params: {
+            format: 'json'
+          },
+          data: payload
+        }).catch(function (error) {
+          if (error.response) {
+            logger.error(figures('✖ ') + 'Error when creating Developer, find more details below:')
+            logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+            // if(error.response.data.code == 'known_error_code'){
+            //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
+            // }
+            process.exit()
+          } 
+        })
+        return results;
+      },
+
+
+      createDeveloperApp: async (payload, devEmail) => {
+        const results = await axios({
+          method: 'post',
+          url: 'https://api.enterprise.apigee.com/v1/organizations/' + ORG + '/developers/' + devEmail + '/apps',
+          params: {
+            format: 'json'
+          },
+          data: payload
+        }).catch(function (error) {
+          if (error.response) {
+            logger.error(figures('✖ ') + 'Error when creating Developer App, find more details below:')
+            logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+            // if(error.response.data.code == 'known_error_code'){
+            //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
+            // }
+            process.exit()
+          } 
+        })
+        return results;
+      },
+
+      reloadDeveloperBalance: async (payload, devId) => {
+        const results = await axios({
+          method: 'post',
+          url: 'https://api.enterprise.apigee.com/v1/mint/organizations/' + ORG + '/developers/' + devId + '/developer-balances',
+          params: {
+            format: 'json'
+          },
+          data: payload
+        }).catch(function (error) {
+          if (error.response) {
+            logger.error(figures('✖ ') + 'Error when adding developer balance, find more details below:')
+            logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+            // if(error.response.data.code == 'known_error_code'){
+            //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
+            // }
+            process.exit()
+          } 
+        })
+        return results;
+      },
+
+      purchaseRatePlan: async (payload, devId) => {
+        const results = await axios({
+          method: 'post',
+          url: 'https://api.enterprise.apigee.com/v1/mint/organizations/' + ORG + '/developers/' + devId + '/developer-rateplans',
+          params: {
+            format: 'json'
+          },
+          data: payload
+        }).catch(function (error) {
+          if (error.response) {
+            logger.error(figures('✖ ') + 'Error when purchasing rate plan, find more details below:')
+            logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+            // if(error.response.data.code == 'known_error_code'){
             //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
             // }
             process.exit()

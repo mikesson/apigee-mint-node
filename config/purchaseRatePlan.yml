@@ -1,7 +1,7 @@
 ---
 developer:
   id: '!INCLUDE{developerId}' # set during runtime
-startDate: '2019-06-04'
+startDate: '2019-06-07'
 ratePlan:
   id: '!INCLUDE{ratePlanId}' # set during runtime
 suppressWarning: false
