@@ -6,7 +6,7 @@ address:
 - address1: "Kickstart Street"
   city: "Kickstart City"
   country: "UK"
-  # as you can have multiple addresses, give it a unique ID
+  # as you can have multiple addresses, give the address a unique ID
   id: "kickstart-street"
   isPrimary: "true"
   state: "London"
@@ -15,16 +15,19 @@ approveTrusted: "true"
 approveUntrusted: "false"
 billingCycle: "CALENDAR_MONTH"
 country: "UK"
-currency: "GBP"
-description: "demo8"
+currency: "EUR"
+# dynamically set
+description: "!INCLUDE{orgName}" 
 hasBillingAdjustment: "true"
 hasBroker: "false"
 hasSelfBilling: "false"
 hasSeparateInvoiceForProduct: "false"
-id: "demo8"
+# dynamically set
+id: "!INCLUDE{orgName}"
 issueNettingStmt: "false"
 logoUrl: "https://pngimage.net/wp-content/uploads/2018/06/sample-logo-png-6.png"
-name: "demo8"
+# dynamically set
+name: "!INCLUDE{orgName}" 
 nettingStmtPerCurrency: "false"
 regNo: "Kickstart-RegNo"
 selfBillingAsExchOrg: "false"

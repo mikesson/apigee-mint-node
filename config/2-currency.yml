@@ -2,14 +2,14 @@
 # Docs: https://docs.apigee.com/api-platform/monetization/manage-supported-currencies
 # Configuration Properties: https://docs.apigee.com/api-platform/monetization/manage-supported-currencies#configuration-props-api
 ---
-description: "Pound Sterling"
-displayName: "Pound Sterling"
+description: "Euro"
+displayName: "Euro"
 virtualCurrency: "false"
 # ISO 4217 currency code (https://en.wikipedia.org/wiki/ISO_4217) 
-name: "GBP"
+name: "EUR"
 organization:
-  # target organization name
-  id: "demo8"
+  # dynamically set
+  id: '!INCLUDE{orgName}'
 status: "ACTIVE"
 
 # (optional properties)

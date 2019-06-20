@@ -9,7 +9,8 @@ attributes:
 - name: MINT_TRANSACTION_SUCCESS_CRITERIA
   value: txProviderStatus == 'OK'
 - name: transactionRecordingPolicies
-  value: "!INCLUDE{transactionRecordingPaths.yml}" # populated during runtime
+  # dynamically set
+  value: "!INCLUDE{transactionRecordingPaths.yml}"
 description: "Sample Monetization API Product"
 apiResources:
 - "/"
@@ -17,7 +18,7 @@ apiResources:
 environments:
 - test
 proxies:
-# Keep as-is or rename if you name the API proxy differently
+  # rename if you wish to have a different API proxy name
 - "m10n-kickstart-v1"
 scopes:
 - ''

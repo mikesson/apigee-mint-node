@@ -2,7 +2,6 @@
 ---
 description: 'Monetization Kickstart Product Bundle'
 displayName: 'Mint Kickstart Product Bundle v1'
-#id: 'kickstart-bundle-v4'
 name: 'mint-kickstart-bundle-v1'
 product:
 - id: 'mint-kickstart-api-product-v1'

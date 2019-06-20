@@ -1,0 +1,5 @@
+---
+amount: 200
+supportedCurrency:
+  # dynamically set
+  id: "!INCLUDE{currencyId}"

@@ -1,10 +1,9 @@
 ---
 companies: []
-# change to an accessible email account if you
-# want to proceed further with the developer account
+# change to an accessible email account if you want to use it in combination with the dev portal
 email: "developer@organization.com" 
-firstName: Developer
-lastName: Jane
+firstName: "Developer"
+lastName: "Jane"
 userName: "developerjane"
 organizationName: '!INCLUDE{apigee-org}' # set during runtime
 status: active

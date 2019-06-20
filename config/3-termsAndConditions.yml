@@ -5,7 +5,4 @@ url: "https://apigee.com/about/sites/mktg-new/files/ApigeeGeneralTermsAndConditi
 tncText: "General Terms and Conditions"
 version: "0.1"
 # set the start date of the T&Cs in YYYY-MM-DD HH:MM:SS format
-startDate: "2019-06-07 00:00:00"
-
-# (optional properties)
-#tncText: "Kickstart T&Cs"
+startDate: "2019-06-19 16:30:00"
