@@ -243,7 +243,7 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'Organization Profile Updated')
 
     var defaultCurrencyAlreadyExists = false; // check if the default currency from the org profile already exists
-    if (CONSIDER_EXISTING_SETTINGS == 'yes') {
+    if (CONSIDER_EXISTING_SETTINGS == 'true') {
       const response = await apicaller.getCurrencies()
       logger.debug('response status is ' + response.status)
       logger.debug('response is:')
@@ -260,8 +260,8 @@ module.exports = async (args) => {
       }
     }
 
-    if ((CONSIDER_EXISTING_SETTINGS == 'no') || ((CONSIDER_EXISTING_SETTINGS == 'yes') && !defaultCurrencyAlreadyExists)) {
-      if (CONSIDER_EXISTING_SETTINGS == 'yes') {
+    if ((CONSIDER_EXISTING_SETTINGS == 'false') || ((CONSIDER_EXISTING_SETTINGS == 'true') && !defaultCurrencyAlreadyExists)) {
+      if (CONSIDER_EXISTING_SETTINGS == 'true') {
         logger.info('(considering existing settings) No, chosen default currency does not exist yet, adding one ...')
       }
 
@@ -271,14 +271,14 @@ module.exports = async (args) => {
       logger.debug('response is:')
       logger.debug(JSON.stringify(response.data, null, '\t'))
       if (response2.status != 200) {
-        logger.error('call to add currency failed with status code ' + response.status)
+        logger.error('call to add currency failed with status code ' + response2.status)
         process.exit()
       }
       logger.info(figures('✔︎ ') + 'New supported currency added')
     }
 
     var validTCsAlreadyExist = false; // check if there already are valid T&Cs for a kickstart setup
-    if (CONSIDER_EXISTING_SETTINGS == 'yes') {
+    if (CONSIDER_EXISTING_SETTINGS == 'true') {
       const response = await apicaller.getTermsAndConditions()
       logger.debug('response status is ' + response.status)
       logger.debug('response is:')
@@ -299,8 +299,8 @@ module.exports = async (args) => {
     }
 
 
-    if ((CONSIDER_EXISTING_SETTINGS == 'no') || ((CONSIDER_EXISTING_SETTINGS == 'yes') && !validTCsAlreadyExist)) {
-      if (CONSIDER_EXISTING_SETTINGS == 'yes') {
+    if ((CONSIDER_EXISTING_SETTINGS == 'false') || ((CONSIDER_EXISTING_SETTINGS == 'true') && !validTCsAlreadyExist)) {
+      if (CONSIDER_EXISTING_SETTINGS == 'true') {
         logger.info('(considering existing settings) No, valid T&Cs do not exist yet, adding them ...')
       }
       const response3 = await apicaller.addTermsAndConditions(configTCs)
@@ -387,7 +387,8 @@ module.exports = async (args) => {
     // 6. Create Rate Plan
 
     // 6.1 Set Rate Plan dynamic fields to complete config
-    configRatePlan.currency.id = configCurrencies.name.toLowerCase()
+    configRatePlan.currency.id = configCurrencies.name
+    logger.debug('rate plan currency set to: ' + configRatePlan.currency.id)
     configRatePlan.ratePlanDetails[0].organization.id = ORG;
     configRatePlan.ratePlanDetails[0].currency.id = configCurrencies.name.toLowerCase();
     logger.debug('============== the rate plan JSON to send ...')
@@ -503,7 +504,7 @@ module.exports = async (args) => {
     for (i = 0; i < 3; i++) {
       var iter = i + 1
       var respTestAPICall = await apicaller.executeTestCall(urlToCall)
-      logger.debug('response status (executeTestCall()) #' + i + ' is ' + respTestAPICall.status)
+      logger.debug('response status (executeTestCall()) #' + (i + 1) + ' is ' + respTestAPICall.status)
       if (respTestAPICall.status != 200) {
         logger.error('test API call #' + iter + ' failed with status code ' + respTestAPICall.status)
         process.exit()

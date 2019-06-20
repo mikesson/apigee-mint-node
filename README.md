@@ -165,6 +165,21 @@ As you change the currency code, you might want to change the display name and d
 
 `2-currency.yml -> displayName`
 
+#### Set new developer name and email
+
+`9-developer.yml -> email`
+
+`9-developer.yml -> firstName`
+
+`9-developer.yml -> lastName`
+
+As you change the currency code, you might want to change the display name and description, too:
+
+`2-currency.yml -> description`
+
+`2-currency.yml -> displayName`
+
+
 
 ### Configuration Reference
 
