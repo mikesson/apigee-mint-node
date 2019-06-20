@@ -67,6 +67,7 @@ Executes kickstart configuration for specified organization and environment, ove
 **```--environment -e```**
 
 (required, the name of the target environment)
+
 Specify the environment name for the setup, e.g. dev/test/prod
 
 **```--directory -d```**
