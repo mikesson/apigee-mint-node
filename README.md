@@ -133,6 +133,11 @@ export DIR_CONFIG=config-{yourSuffix}
 
 - `.bin/mint kickstart -e test -l info -c true`
 
+For reference, this is how a successful kickstart execution looks like:
+
+![successful kickstart execution](https://raw.githubusercontent.com/mikesson/apigee-mint-node/master/img/successful-kickstart.png)
+
+
 ### Customizations
 
 You can use tour copied config directory to adjust all setup settings. Here's a list of common customizations, referencing the target file name and attribute: 
