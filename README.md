@@ -166,6 +166,27 @@ As you change the currency code, you might want to change the display name and d
 `2-currency.yml -> displayName`
 
 
+### Configuration Reference
+
+This section lists all available config files and a short description of its purpose
+
+|File      | Description   |
+|---------------| --------------|
+| `1-orgProfile.yml` | The Org Profile |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+| `` |  |
+
+
 ## do
 
 Performs common CRUD operations on Monetization resources such as
@@ -220,5 +241,9 @@ error: HTTP 400 | {"code":"mint.invalidTransaction","message":"Invalid transacti
 
 
 
+
+
+
+#
 
 This is not an official Google product
