@@ -188,23 +188,22 @@ As you change the currency code, you might want to change the display name and d
 
 ### Configuration Reference
 
-This section lists all available config files and a short description of its purpose
+This section lists all available config files and a link to the full [Apigee Docs](https://docs.apigee.com) page
 
 |File      | Description   |
 |---------------| --------------|
-| `1-orgProfile.yml` | The Org Profile |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
-| `` |  |
+| `1-orgProfile.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/edit-organization-profile#api) |
+| `2-currency.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/manage-supported-currencies#api) |
+| `3-termsAndConditions.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/specify-terms-and-conditions#api) |
+| `4-apiProductMint.yml` | [Docs Link]() |
+| `5-transactionRecordingPaths.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/create-transaction-recording-policy#createtrpapi) |
+| `6-transactionRecordingPolicy.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/create-transaction-recording-policy#createtrpapi) |
+| `7-productBundle.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/api-product-bundles#api) |
+| `8-ratePlan.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/create-rate-plans#api) |
+| `9-developer.yml` | [Docs Link](https://docs.apigee.com/api-platform/publish/adding-developers-your-api-product#monetization-attributes) |
+| `10-developerApp.yml` | [Docs Link](https://docs.apigee.com/api-platform/publish/using-edge-management-api-publish-apis#registeringdeveloperapps) |
+| `11-purchaseRatePlan.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/subscribe-published-rate-plan-using-api) |
+| `12-reloadAccountBalance.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/manage-prepaid-balances#getbalancesapi) |
 
 
 ## do
