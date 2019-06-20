@@ -15,10 +15,6 @@ change directory
 cd apigee-mint-node
 ```
 
-*(Recommended)* Create a copy of the config directory for your own setup, with e.g. the target org name as suffix
-```
-cp -r config config-{orgName}
-```
 
 (available via npm in the future)
 
@@ -43,7 +39,6 @@ The parameters below are used across all operations. For more specific parameter
 | `--password -p` | Your Apigee account password | `APIGEE_PASSWORD` | Yes |
 | `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes |
 | `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional |
-| `--directory -d` | Directory of config files, defaults to `config` if not specified | `DIR_CONFIG` | Optional |
 
 
 # Commands
@@ -51,8 +46,8 @@ The parameters below are used across all operations. For more specific parameter
 
 ## kickstart
 
-Deploys a chain of entities for a ready-to-use sample configuration. This command makes use of the `/config` directory where all YML files reside.
-If you are familiar with the monetization settings, you can edit all configuration files.
+Deploys a chain of entities for a ready-to-use sample configuration. This command makes use of a config directory where all YML files reside.
+Familiarize yourself with the Apigee Monetization concepts and entities before customizing the config files.
 
 *Recommendation:* Keep the versioning tags in the entity names & IDs to increment in case of a failed execution.
 
@@ -60,53 +55,114 @@ If you are familiar with the monetization settings, you can edit all configurati
 
 Executes kickstart configuration for specified organization and environment, considering existing settings ([What does that mean?](#Parameters))
 
-```./mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
+```.bin/mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
 
 Executes kickstart configuration for specified organization and environment, overwriting/ignoring existing settings 
 
-```./mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
+```.bin/mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
 
 
 ### Parameters
 
+**```--environment -e```**
+
+(required, the name of the target environment)
+Specify the environment name for the setup, e.g. dev/test/prod
+
+**```--directory -d```**
+
+(optional, the directory where the config files reside, default: `config`)
+
+You can also store this in an environment variable:
+
+```
+export DIR_CONFIG="config-myorg"
+```
+
+
 **```--considerExistingSettings -c```**
 
 (optional, `true/false`, default: `true`)
+
 As the kickstart command modifies a range of settings from the _organization profile_ over to _currencies_ and _T&Cs_, you can choose to (a) overwrite all settings or (b) keep them and add the proxy, product and bundle to your existing configuration.
 
 Choose `false` if you run this command on a clean/empty environment, choose `true` if you have already run this command before or if you would like to keep your existing org settings. **Please be aware** that config file changes might be necessary in order for the kickstart setup to work (e.g. clash of supported currencies and necessary changes to the organization profile).
 
-#### Details
-
-In more detail, the `-c false` flag executed two additional steps:
+In more detail, the `-c false` flag executes two additional steps:
 1. Checks whether the currency specified in `1-orgProfile.yml` is already available. If `true`, no new currency is being added
 2. Checks whether there are existing T&Cs which have not expired yet. If `true`, no new T&Cs are added.
 
-### Steps (TBD)
-
-download repo
-cd /somewhere
-
-set env variables
-username, password, org, loglevel
 
 
-- 
+### Steps
 
+Follow these steps to run the kickstart setup
 
-lastly, include screenshot of a successful config
+1. Create a copy of the config directory for your own setup, with e.g. the target org name as suffix
+
+```
+cp -r config config-{yourSuffix}
+```
+
+2. Set environment variables
+
+```
+export APIGEE_ORGANIZATION={orgName}
+export APIGEE_USERNAME={username}
+export APIGEE_PASSWORD={password}
+export LOG_LEVEL=info
+export DIR_CONFIG=config-{yourSuffix}
+```
+
+3. Prepare configuration files (Required)
+
+- 3.1 Set start date of T&Cs (e.g. _today_ and _now + 1 hour_)
+
+  `3-termsAndConditions.yml -> startDate`
+
+- 3.2 Set start date of rate plan (e.g. _today_ 00:00:00)
+
+  `8-ratePlan.yml -> startDate`
+
+- 3.3 Set end date of rate plan (any date in the future)
+
+  `8-ratePlan.yml -> endDate` 
+
+4. Run the command
+
+- `.bin/mint kickstart -e test -l info -c true`
 
 ### Customizations
 
-customise settings in config files under /config
+You can use tour copied config directory to adjust all setup settings. Here's a list of common customizations, referencing the target file name and attribute: 
 
-setting the proxy name:
-- change in apiproduct-mint.yml
+#### Set new API Proxy name:
 
-setting a product name:
-- change in apiproduct-mint.yml
+`4-apiProductMint.yml -> proxies[0]`
 
+#### Set new API Product Name:
 
+`4-apiProductMint.yml -> name`
+
+`4-apiProductMint.yml -> displayName`
+
+The API Product name also appears in the following files, so change the name there, too:
+
+`7-productBundle.yml -> product.id`
+
+`10-developerApp.yml -> apiProducts[0]`
+
+#### Set new default currency for organization:
+
+`1-orgProfile.yml -> currency`
+
+`2-currency.yml -> name`
+
+As you change the currency code, you might want to change the display name and description, too:
+
+`2-currency.yml -> description`
+
+`2-currency.yml -> displayName`
 
 
 ## do
@@ -143,10 +199,18 @@ The resource type you want to perform the action on.
 The ID of a specified resource you want to perform the action on.
 
 
-### Details
+### Supported resources and actions
+
+
+|Resource      | Actions   | 
+|---------------| --------------|
+| `productbundle` | `list`, `delete` |
+| `rateplan` | `list`, `delete` |
+| `apiproxy` | `list`, `delete` |
 
 
 # Known Issues
+
 
 ```
 error: ✖ Error when adding developer balance, find more details below:

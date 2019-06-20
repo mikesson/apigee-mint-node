@@ -31,14 +31,6 @@ let ACTION
 let RESOURCE
 let ID
 
-//--organization -o (optional) The name of the organization to deploy to. May be set as an environment variable APIGEE_ORGANIZATION.
-//--password -p (optional) Your Apigee account password. May be set as an environment variable APIGEE_PASSWORD.
-//--username -u (optional) Your Apigee account username. May be set as an environment variable APIGEE_USERNAME.
-// --env -e (optional) The target environment to deploy the kickstart assets to (dev/test/prod)
-// --action -a (required) The action (list, delete ...)
-// --resource -r (required) The resource affected (supported resources: productbundle, rateplan, apiproduct, apiproxy)
-//--logLevel -l (optional, defaults to 'info') log level alternatively to LOG_LEVEL env variable, defaults to info
-
 
 let LOG_LEVEL;
 

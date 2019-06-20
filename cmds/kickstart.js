@@ -174,19 +174,23 @@ module.exports = async (args) => {
     }
 
     // d) PURCHASE RATE PLAN: make sure start date is not in the past
-    var purchaseRatePlanStartDateFromFile = configPurchaseRatePlan.startDate
-    var purchaseRatePlanStartDate = new Date(purchaseRatePlanStartDateFromFile)
-    var nowDate = new Date()
-    nowDate.setHours(0, 0, 0, 0) // removing time element
-    purchaseRatePlanStartDate.setHours(0, 0, 0, 0) // removing time element
-    if (nowDate.getTime() > purchaseRatePlanStartDate.getTime()) {
-      logger.error(figures('✖ ') + 'Please make sure the target purchase date of the rate planis in the future (or today) and in the right format')
-      logger.error(figures('') + 'Currently, you entered <' + purchaseRatePlanStartDateFromFile + '> in your purchaseRatePlan.yml config')
-      logger.error(figures('') + 'Your system tells <' + nowDate + '> now')
-      logger.info(figures('▶ ') + 'Tip: Change the start date to today and (optionally) the time to a few hours/minutes ahead of now.')
-      logger.error(figures('◼ ') + '[kickstart setup failed]')
-      process.exit()
-    }
+    // var purchaseRatePlanStartDateFromFile = configPurchaseRatePlan.startDate
+    // var purchaseRatePlanStartDate = new Date(purchaseRatePlanStartDateFromFile)
+    // var nowDate = new Date()
+    // nowDate.setHours(0, 0, 0, 0) // removing time element
+    // purchaseRatePlanStartDate.setHours(0, 0, 0, 0) // removing time element
+    // if (nowDate.getTime() > purchaseRatePlanStartDate.getTime()) {
+    //   logger.error(figures('✖ ') + 'Please make sure the target purchase date of the rate planis in the future (or today) and in the right format')
+    //   logger.error(figures('') + 'Currently, you entered <' + purchaseRatePlanStartDateFromFile + '> in your purchaseRatePlan.yml config')
+    //   logger.error(figures('') + 'Your system tells <' + nowDate + '> now')
+    //   logger.info(figures('▶ ') + 'Tip: Change the start date to today and (optionally) the time to a few hours/minutes ahead of now.')
+    //   logger.error(figures('◼ ') + '[kickstart setup failed]')
+    //   process.exit()
+    // }
+
+    // instead of user-defined date, the current day is pre-populated in YYYY-MM-DD format
+    configPurchaseRatePlan.startDate = new Date().toISOString().slice(0,10); // setting purchase date to today
+
 
     // e) Get Proxy name from apiproduct-mint.yml
     var proxyNameFromAPIProduct = configApiProduct.proxies[0];
@@ -459,6 +463,7 @@ module.exports = async (args) => {
     // 10. Purchase Rate Plan
     configPurchaseRatePlan.developer.id = DEVELOPER_ID
     configPurchaseRatePlan.ratePlan.id = RATE_PLAN_ID
+
     const respPurchaseRatePlan = await apicaller.purchaseRatePlan(configPurchaseRatePlan, DEVELOPER_ID)
     logger.debug('response status (createDeveloperApp()) is ' + respPurchaseRatePlan.status)
     logger.debug('response is:')

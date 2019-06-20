@@ -2,7 +2,7 @@
 published: true
 advance: false
 type: STANDARD
-startDate: '2019-06-19 00:00:00'
+startDate: '2019-06-20 00:00:00'
 endDate: '2019-06-30 00:00:00'
 recurringStartUnit: 1
 recurringType: CALENDAR

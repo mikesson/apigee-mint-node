@@ -1,7 +1,10 @@
 ---
 developer:
-  id: '!INCLUDE{developerId}' # set during runtime
-startDate: '2019-06-20'
+  # dynamically set
+  id: '!INCLUDE{developerId}'
+ # dynamically set
+startDate: '!INCLUDE{dateToday}'
 ratePlan:
+  # dynamically set
   id: '!INCLUDE{ratePlanId}' # set during runtime
 suppressWarning: false
