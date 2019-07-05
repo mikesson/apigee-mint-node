@@ -3,9 +3,23 @@
 This tool allows you to interact with Apigee Monetization settings and entities through automated scripts and YML config files.
 
 
-# Install & Prepare
+* [Install & Prepare](#installandprepare)
+* [About](#about)
+* [Common Parameters](#common-params)
+* [Commands](#commands)
+* [Konwn Issues](#known-issues)
 
-clone this repo to your local directory
+
+# <a name="installandprepare"></a> Install & Prepare
+
+```
+npm i apigee-mint -g
+```
+
+*NOTE: The `-g` option places the apigee-mint command in your PATH. On "\*nix"-based machines, `sudo` may be required with the `-g` option. If you do not use `-g`, then you need to add the apigee-mint command to your PATH manually.*
+
+
+clone the GitHub repo to your local directory
 ```
 git clone git@github.com:mikesson/apigee-mint-node.git
 ```
@@ -16,12 +30,9 @@ cd apigee-mint-node
 ```
 
 
-(available via npm in the future)
+# <a name="about"></a> About
 
-
-# About
-
-An Apigee Edge account is required to perform any actions with mint-node. Also, the Monetization components needs to be enabled and configured.
+An Apigee Edge account is required to perform any actions with apigee-mint. Also, the Monetization module needs to be enabled and configured.
 
 You need to be familiar with basic concepts and features of Apigee Edge such as API Proxies, API Products and environments. For more information, refer to the [Apigee Edge Docs](http://docs.apigee.com).
 
@@ -29,7 +40,7 @@ You should be aware of the [Monetization concepts](https://docs.apigee.com/api-p
 
 
 
-# Common Parameters
+# <a name="common-params"></a> Common Parameters
 
 The parameters below are used across all operations. For more specific parameters, please refer to the commands list below.
 
@@ -40,8 +51,9 @@ The parameters below are used across all operations. For more specific parameter
 | `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes |
 | `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional |
 
+ 
 
-# Commands
+# <a name="commands"></a> Commands
 
 
 ## kickstart
@@ -55,11 +67,11 @@ Familiarize yourself with the Apigee Monetization concepts and entities before c
 
 Executes kickstart configuration for specified organization and environment, considering existing settings ([What does that mean?](#Parameters))
 
-```.bin/mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
+```apigee-mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
 
 Executes kickstart configuration for specified organization and environment, overwriting/ignoring existing settings 
 
-```.bin/mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
+```apigee-mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
 
 
 ### Parameters
@@ -217,11 +229,11 @@ Performs common CRUD operations on Monetization resources such as
 
 First, list the resources (returns IDs)
 
-```./mint do -a list -r productbundle -l info```
+```apigee-mint do -a list -r productbundle -l info```
 
 Second, delete the chosen resource by specifying its ID
 
-```./mint do -a delete -r productbundle -i <id_of_bundle> -l info```
+```apigee-mint do -a delete -r productbundle -i <id_of_bundle> -l info```
 
 ### Parameters
 
@@ -250,15 +262,15 @@ The ID of a specified resource you want to perform the action on.
 | `rateplan` | `list`, `delete` |
 | `apiproxy` | `list`, `delete` |
 
-
-# Known Issues
+ 
+ 
+# <a name="known-issues"></a> Known Issues
 
 
 ```
 error: ✖ Error when adding developer balance, find more details below:
 error: HTTP 400 | {"code":"mint.invalidTransaction","message":"Invalid transaction: Datastore Error","contexts":[],"cause":{"message":"Invalid transaction: Datastore Error","contexts":[]}}
 ```
-
 
 
 
