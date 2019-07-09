@@ -39,6 +39,11 @@ You need to be familiar with basic concepts and features of Apigee Edge such as 
 You should be aware of the [Monetization concepts](https://docs.apigee.com/api-platform/monetization/basics-monetization) within Apigee Edge. 
 
 
+This high-level diagram shows the involved entities when using Apigee with Monetization:
+
+![apigee-entities-with-monetization](https://raw.githubusercontent.com/mikesson/apigee-mint-node/master/img/apigee-entities-with-monetization.png)
+
+
 
 # <a name="common-params"></a> Common Parameters
 
@@ -216,6 +221,13 @@ This section lists all available config files and a link to the full [Apigee Doc
 | `10-developerApp.yml` | [Docs Link](https://docs.apigee.com/api-platform/publish/using-edge-management-api-publish-apis#registeringdeveloperapps) |
 | `11-purchaseRatePlan.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/subscribe-published-rate-plan-using-api) |
 | `12-reloadAccountBalance.yml` | [Docs Link](https://docs.apigee.com/api-platform/monetization/manage-prepaid-balances#getbalancesapi) |
+
+
+#### Transaction Recording Policy Details
+
+The API Product YML config has been split for more flexibility with Transaction Recording Policies. The dependencies are as follows:
+
+![transaction-recording-policy-config](https://raw.githubusercontent.com/mikesson/apigee-mint-node/master/img/transaction-recording-policy-config.png)
 
 
 
