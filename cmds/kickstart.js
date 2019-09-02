@@ -61,15 +61,15 @@ module.exports = async (args) => {
 
     if (args.d || args.directory) {
       CONFIGDIR = (args.d) ? args.d : args.directory;
-      logger.info('config dir parameter found in args: "' + CONFIGDIR + '"')
+      logger.info('CONFIGDIR parameter found in command args: "' + CONFIGDIR + '"')
     } else {
       var dirInEnvVar = (process.env.DIR_CONFIG) ? process.env.DIR_CONFIG : false
       if(!dirInEnvVar){
         CONFIGDIR = 'config'
-        logger.info('config dir parameter not found in args or env, defaulting to: "' + CONFIGDIR + '"')
+        logger.info('CONFIGDIR parameter not found in args or as environment variable, defaulting to: "' + CONFIGDIR + '"')
       }else{
         CONFIGDIR = dirInEnvVar
-        logger.info('config dir parameter found in env: "' + CONFIGDIR + '"')
+        logger.info('CONFIGDIR parameter found as environment variable: "' + CONFIGDIR + '"')
       } 
     }
 
