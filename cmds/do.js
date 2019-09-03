@@ -248,7 +248,7 @@ module.exports = async (args) => {
             var obj = arr[i];
             console.log(obj)
           }
-        } else if (RESOURCE == 'apiPackages-byDevId-activeOnly') {
+        } else if (RESOURCE == 'apiProductBundles-byDevId-activeOnly') {
           var resp = response.data
           logger.info(' ======= List of active API packages for developer ' + ID + ' =======')
           console.log(' ')
@@ -262,7 +262,7 @@ module.exports = async (args) => {
               console.log(obj.id)
             }
           }
-        } else if (RESOURCE == 'apiPackages-byDevId-includeExpired') {
+        } else if (RESOURCE == 'apiProductBundles-byDevId-includeExpired') {
           var resp = response.data
           logger.info(' ======= List of all API packages for developer ' + ID + ' =======')
           console.log(' ')

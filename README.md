@@ -12,12 +12,15 @@ This tool allows you to interact with Apigee Monetization settings and entities 
 
 # <a name="installandprepare"></a> Install & Prepare
 
+## Install with NPM
+
 ```
 npm i apigee-mint -g
 ```
 
 *NOTE: The `-g` option places the apigee-mint command in your PATH. On "\*nix"-based machines, `sudo` may be required with the `-g` option. If you do not use `-g`, then you need to add the apigee-mint command to your PATH manually.*
 
+## Run from repository
 
 clone the GitHub repo to your local directory
 ```
@@ -44,7 +47,6 @@ This high-level diagram shows the involved entities when using Apigee with Monet
 ![apigee-entities-with-monetization](https://raw.githubusercontent.com/mikesson/apigee-mint-node/master/img/apigee-entities-with-monetization.png)
 
 
-
 # <a name="common-params"></a> Common Parameters
 
 The parameters below are used across all operations. For more specific parameters, please refer to the commands list below.
@@ -56,9 +58,25 @@ The parameters below are used across all operations. For more specific parameter
 | `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes |
 | `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional |
 
- 
+ It is a best practice to store the required parameters in environment variables, such as:
+
+ ```
+export APIGEE_USERNAME="user@domain.com"
+export APIGEE_PASSWORD="pwd"
+export APIGEE_ORGANIZATION="org-name"
+ ```
 
 # <a name="commands"></a> Commands
+
+## What can I do?
+
+Here's a list of operations you can perform with a link to the corresponding section.
+
+|Operation      | 
+|---------------|
+| [adding prepaid balance](#addprepaidbalance) |
+| [issuing credit](#issuecredit) |
+
 
 
 ## kickstart
@@ -265,16 +283,73 @@ The resource type you want to perform the action on.
 The ID of a specified resource you want to perform the action on.
 
 
-### Supported resources and actions
-
-
-|Resource      | Actions   | 
-|---------------| --------------|
-| `productbundle` | `list`, `delete` |
-| `rateplan` | `list`, `delete` |
-| `apiproxy` | `list`, `delete` |
 
  
+### Available actions
+
+#### Summary
+
+The table below lists available actions and required parameters for each.
+
+|Action                 | Parameter 1       | Parameter 2 | Parameter 3 | Param 4 | Param 5 | Param 6 |
+|-----------------------| ------------------|---------------| --------------|---------------| --------------|---------------| 
+| `list`                | `-r resourceType` |  `/` |  `/` |
+| `get`                 | `-r resourceType` |  `-i resourceID` |  `/` |
+| `delete`              | `-r resourceType` | `-i resourceID` | `/` |
+| `find`                | `-i searchTag`    | `-i resourceID` | `/` |
+| `addPrepaidBalance`   | `-i developerId`  | `-i amount` | `-i currencyCode` |
+| `issueCredit`         | `-i packageId`    | `-i ratePlanId` | `-i developerId` | `-i currencyId` | `-i creditAmount` | `-i creditDescription` |
+
+#### Available resources per action
+
+##### get
+
+| Available Resource        |  Description   | Example |
+|---------------------------| --------------|---------------|
+| `developerRatePlan`       | `details of a developer's rate plan` | `do -a get -r developerRatePlan -i <developerID> -i <ratePlanID>` |
+
+#### list
+
+| Available Resource        |  Description   | Example |
+|---------------------------| --------------|---------------|
+| `apiproxy`                | `list of API proxies per org` | `do -a list -r apiproxy` |
+| `productbundle`           | `list of API product bundles per org` | `do -a list -r productbundle` |
+| `rateplan`                | `list of rate plans per org` | `do -a list -r rateplan` |
+
+#### find
+
+| Available Search Tag      |  Description   | Example |
+|---------------------------| --------------|---------------|
+| `apps-byDevEmail` | finds apps by developer email | `do -a find -i apps-byDevEmail` |
+| `apps-byDevId`  | finds apps by developer ID | `do -a find -i apps-byDevId` |
+| `apiProductBundles-byDevId-activeOnly` | finds *active only* API product bundles by developer ID | `do -a find -i apiProductBundles-byDevId-activeOnly -i <id>` |
+| `apiProductBundles-byDevId-includeExpired`| finds all API product bundles by developer ID | `do -a find -i apiProductBundles-byDevId-includeExpired -i <id>` |
+| `acceptedRatePlan-byDevId` | finds accepted rate plans by developer ID | `do -a find -i acceptedRatePlan-byDevId -i <id>` |
+
+
+#### delete
+
+|Action     |  Supported Resources   | 
+|-----------| --------------|---------------| --------------|
+| `get`     | `developerRatePlan` |  |  |
+| `list`    | `apiproxy`, `productbundle`, `rateplan` |  |  |
+| `find`    | `apps-byDevEmail`, `apps-byDevId`, `apiPackages-byDevId-activeOnly`, `apiPackages-byDevId-includeExpired`, `acceptedRatePlan-byDevId` |  |  |
+| `delete`  | `apiproxy`, `productbundle`, `rateplan` |  |  |
+
+
+
+
+## <a name="addprepaidbalance"></a>
+
+Add prepaid balance to a developer account 
+
+Example:
+`do -a addPrepaidBalance -i fdd76257-cd71-xzxx-xxxx-8fdf9f1ca23f -i 100 -i gbp -l debug`
+
+
+
+
+
  
 # <a name="known-issues"></a> Known Issues
 
