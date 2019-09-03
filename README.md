@@ -251,9 +251,7 @@ The API Product YML config has been split for more flexibility with Transaction 
 
 ## do
 
-Performs common CRUD operations on Monetization resources such as
--- listing entity IDS
--- removing entities
+Perform common CRUD operations, view data points and find Monetization resources.
 
 ### Examples
 
@@ -269,19 +267,21 @@ Second, delete the chosen resource by specifying its ID
 
 ***```--action -a```***
 
-(required, `list/delete`, default: `N/A`)
+(required, `list/delete/...`, default: `N/A`)
+
 The action you want to perform.
 
 ***```--resource -r```***
 
-(required, `apiproxy/apiproduct/productbundle/rateplan`, default: `N/A`)
+(required, `apiproxy/apiproduct/...`, default: `N/A`)
+
 The resource type you want to perform the action on.
 
 ***```--id -i```***
 
-(required, `<id of a specific resource>`, default: `N/A`)
-The ID of a specified resource you want to perform the action on.
+(required, `<identifier>`, default: `N/A`)
 
+The resource or search identifier. For some commands, multiple of those input parameters are required (order matters). 
 
 
  
@@ -291,7 +291,7 @@ The ID of a specified resource you want to perform the action on.
 
 The table below lists available actions and required parameters for each.
 
-|Action                 | Parameter 1       | Parameter 2 | Parameter 3 | Param 4 | Param 5 | Param 6 |
+|Action                 | Parameter 1       | Parameter 2 | Parameter 3 | Parameter 4 | Parameter 5 | Parameter 6 |
 |-----------------------| ------------------|---------------| --------------|---------------| --------------|---------------| 
 | `list`                | `-r resourceType` |  `/` |  `/` |
 | `get`                 | `-r resourceType` |  `-i resourceID` |  `/` |
@@ -306,15 +306,15 @@ The table below lists available actions and required parameters for each.
 
 | Available Resource        |  Description   | Example |
 |---------------------------| --------------|---------------|
-| `developerRatePlan`       | `details of a developer's rate plan` | `do -a get -r developerRatePlan -i <developerID> -i <ratePlanID>` |
+| `developerRatePlan`       | details of a developer's rate plan | `do -a get -r developerRatePlan -i <developerID> -i <ratePlanID>` |
 
 #### list
 
 | Available Resource        |  Description   | Example |
 |---------------------------| --------------|---------------|
-| `apiproxy`                | `list of API proxies per org` | `do -a list -r apiproxy` |
-| `productbundle`           | `list of API product bundles per org` | `do -a list -r productbundle` |
-| `rateplan`                | `list of rate plans per org` | `do -a list -r rateplan` |
+| `apiproxy`                | list of API proxies per org | `do -a list -r apiproxy` |
+| `productbundle`           | list of API product bundles per org | `do -a list -r productbundle` |
+| `rateplan`                | list of rate plans per org | `do -a list -r rateplan` |
 
 #### find
 
@@ -329,13 +329,11 @@ The table below lists available actions and required parameters for each.
 
 #### delete
 
-|Action     |  Supported Resources   | 
-|-----------| --------------|---------------| --------------|
-| `get`     | `developerRatePlan` |  |  |
-| `list`    | `apiproxy`, `productbundle`, `rateplan` |  |  |
-| `find`    | `apps-byDevEmail`, `apps-byDevId`, `apiPackages-byDevId-activeOnly`, `apiPackages-byDevId-includeExpired`, `acceptedRatePlan-byDevId` |  |  |
-| `delete`  | `apiproxy`, `productbundle`, `rateplan` |  |  |
-
+| Available Resource        |  Description   | Example |
+|---------------------------| --------------|---------------|
+| `apiproxy`                | deletes an API proxy | `do -a delete -r apiproxy -i <id>` |
+| `productbundle`           | deletes an API product bundles | `do -a delete -r productbundle -i <id>` |
+| `rateplan`                | deletes a rate plan | `do -a delete -r rateplan -i <id>` |
 
 
 
