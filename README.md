@@ -83,8 +83,9 @@ Recommendation is to keep log level at `debug` when facing issues, `info` when u
 
 Jump to the details from this table:
 
-|Use Case      | 
+|Scenario      | 
 |---------------|
+| [end-to-end setup: configuring a monetized API with subscribed application and an account balance](#cmd-kickstart) |
 | [adding prepaid balance to a developer account](#addprepaidbalance) |
 | [issuing credit to a developer](#issuecredit) |
 | [get details of a rate plan](#tableGet) |
