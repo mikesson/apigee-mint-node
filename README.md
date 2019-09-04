@@ -94,12 +94,12 @@ Jump to the details from this table:
 
 # <a name="commands"></a> Commands
 
+This section describes all available commands with examples and syntax.
+
 * [`kickstart`](#cmd-kickstart)
 * [`do`](#cmd-do)
 * [`cleanup`](#cmd-cleanup)
 * [`wheresMyConfig`](#cmd-wheresMyConfig)
-
-This section describes all available commands with examples and syntax.
 
 ## <a name="cmd-kickstart"></a> kickstart
 
