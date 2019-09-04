@@ -57,19 +57,20 @@ This high-level diagram shows the involved entities when using Apigee with Monet
 
 The parameters below are used across all operations. For more specific parameters, please refer to the commands list below.
 
-|Parameter      | Description   | Env. Variable | Required?
-|---------------| --------------| --------------|------------|
-| `--username -u` | Your Apigee account username | `APIGEE_USERNAME` | Yes |
-| `--password -p` | Your Apigee account password | `APIGEE_PASSWORD` | Yes |
-| `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes |
-| `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional |
+|Parameter      | Description   | Env. Variable | Required? | Default |
+|---------------| --------------| --------------|------------| ----------|
+| `--username -u` | Your Apigee account username | `APIGEE_USERNAME` | Yes | / |
+| `--password -p` | Your Apigee account password | `APIGEE_PASSWORD` | Yes | / |
+| `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes | / |
+| `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional | `info` |
 
- It is a best practice to store the required parameters in environment variables, such as:
+ It is a best practice to store these parameters in environment variables, such as:
 
  ```
 export APIGEE_USERNAME="user@domain.com"
 export APIGEE_PASSWORD="pwd"
 export APIGEE_ORGANIZATION="org-name"
+export LOG_LEVEL="debug"
  ```
 
 The following log levels are available:
@@ -93,9 +94,14 @@ Jump to the details from this table:
 
 # <a name="commands"></a> Commands
 
+* [`kickstart`](#cmd-kickstart)
+* [`do`](#cmd-do)
+* [`cleanup`](#cmd-cleanup)
+* [`wheresMyConfig`](#cmd-wheresMyConfig)
+
 This section describes all available commands with examples and syntax.
 
-## kickstart
+## <a name="cmd-kickstart"></a> kickstart
 
 Deploys a chain of entities for a ready-to-use sample configuration. This command makes use of a config directory where all YML files reside.
 Familiarize yourself with the Apigee Monetization concepts and entities before customizing the config files.
@@ -150,13 +156,15 @@ In more detail, the `-c false` flag executes two additional steps:
 
 Follow these steps to run the kickstart setup
 
-1. Create a copy of the config directory for your own setup, with e.g. the target org name as suffix
+1. Clone this repo to your local workspace
+
+2. Create a copy of the config directory for your own setup, with e.g. the target org name as suffix
 
 ```
 cp -r config config-{yourSuffix}
 ```
 
-2. Set environment variables
+3. Set environment variables
 
 ```
 export APIGEE_ORGANIZATION={orgName}
@@ -166,23 +174,23 @@ export LOG_LEVEL=info
 export DIR_CONFIG=config-{yourSuffix}
 ```
 
-3. Prepare configuration files (Required)
+4. Prepare configuration files (Required)
 
-- 3.1 Set start date of T&Cs (e.g. _today_ and _now + 1 hour_)
+- 4.1 Set start date of T&Cs (e.g. _today_ and _now + 1 hour_)
 
   `3-termsAndConditions.yml -> startDate`
 
-- 3.2 Set start date of rate plan (e.g. _today_ 00:00:00)
+- 4.2 Set start date of rate plan (e.g. _today_ 00:00:00)
 
   `8-ratePlan.yml -> startDate`
 
-- 3.3 Set end date of rate plan (any date in the future)
+- 4.3 Set end date of rate plan (any date in the future)
 
   `8-ratePlan.yml -> endDate` 
 
-4. Run the command
+5. Run the command
 
-- `.bin/mint kickstart -e test -l info -c true`
+- `apigee-mint kickstart -e test -l info -c true`
 
 For reference, this is how a successful kickstart execution looks like:
 
@@ -265,7 +273,7 @@ The API Product YML config has been split for more flexibility with Transaction 
 
 
 
-## do
+## <a name="cmd-do"></a> do
 
 Perform common CRUD operations, view data points and find Monetization resources.
 
@@ -359,7 +367,30 @@ Example:
 apigee-mint do -a issueCredit -i product-bundle-1 -i product-bundle-1-rateplan-1 -i fdd76-2578f-df9f-1ca23f -i gbp -i 100 -i 'sample refund'
 ```
 
+
+## <a name="cmd-cleanup"></a> cleanup *[experimental]*
+
+This command cleans up an organization's Monetization data.
+This is currently an experimental feature as some enties might need manual removal.
+
+Example:
+```
+apigee-mint cleanup -l info
+```
+
+You can read more about deleting Monetization data [on Apigee docs here](https://docs.apigee.com/api-platform/monetization/delete-monetization-data-organization)
+
+
+
+## <a name="cmd-wheresMyConfig"></a> wheresMyConfig
  
+This command helps you verify the currently selected target directory for the configuration files. Use this command if you're unsure about where the `kickstart` command will pick up the YML files.
+
+Example:
+```
+apigee-mint wheresMyConfig
+```
+
 # <a name="known-issues"></a> Known Issues
 
 

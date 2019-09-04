@@ -29,12 +29,12 @@ module.exports = () => {
         case 'cleanup':
             require('./cmds/cleanup.js')(args)
             break
-        case 'verifyConfig':
-            require('./cmds/verifyConfig.js')(args)
-            break
-        case 'scaffold':
-            require('./cmds/scaffold.js')(args)
-            break
+        // case 'verifyConfig':
+        //     require('./cmds/verifyConfig.js')(args)
+        //     break
+        // case 'scaffold':
+        //     require('./cmds/scaffold.js')(args)
+        //     break
         default:
             console.error(`"${cmd}" is not a valid command`)
             break
