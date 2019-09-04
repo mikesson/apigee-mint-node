@@ -6,6 +6,7 @@ This tool allows you to interact with Apigee Monetization settings and entities 
 * [Install & Prepare](#installandprepare)
 * [About](#about)
 * [Common Parameters](#common-params)
+* **[What can I do?](#whatcanido)**
 * [Commands](#commands)
 * [Konwn Issues](#known-issues)
 
@@ -77,7 +78,7 @@ The following log levels are available:
 Recommendation is to keep log level at `debug` when facing issues, `info` when using the tool ad-hoc and `error` when integrated into other systems.
 
 
-# What can I do?
+# <a name="whatcanido"></a> What can I do?
 
 Jump to the details from this table:
 
