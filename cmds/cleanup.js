@@ -1,15 +1,8 @@
 const ora = require('ora')
 const apicaller = require('../utils/apicaller')
 const winston = require('winston')
-const delay = require('delay')
 var sleep = require('sleep')
-
-// may be removed if unused after cleanup function is done
-const yaml = require('js-yaml')
-const fs = require('fs')
 const figures = require('figures')
-const apigeetool = require('apigeetool')
-const path = require('path')
 var sleep = require('sleep')
 
 
@@ -27,17 +20,12 @@ var logger = winston.createLogger({
   ]
 });
 
-//--organization -o (required) The name of the organization to deploy to. May be set as an environment variable APIGEE_ORGANIZATION.
-//--password -p (required) Your Apigee account password. May be set as an environment variable APIGEE_PASSWORD.
-//--username -u (required) Your Apigee account username. May be set as an environment variable APIGEE_USERNAME.
-// log level as LOG_LEVEL env variable, defaults to info (-v as verbose)
 
 module.exports = async (args) => {
     const spinner = ora().start()
     try {
 
       if(apicaller.setCredentialsAndOrg(args)){
-        // Step 1 - get Org data and check if features.isMintOrgDataDeletionAllowed = true
         const response = await apicaller.getOrgData()
         logger.debug('response status is ' + response.status)
         logger.debug('response is:')
@@ -69,7 +57,6 @@ module.exports = async (args) => {
               "value": "true"
             })
         }
-        // remove unnecessary attributes
         delete newData['type']
         delete newData['lastModifiedBy']
         delete newData['lastModifiedAt']
@@ -81,7 +68,6 @@ module.exports = async (args) => {
         logger.debug('new data object:')
         logger.debug(JSON.stringify(newData, null, '\t'))
 
-        // Step 2 - if features.isMintOrgDataDeletionAllowed = false or not found, add this to payload and submit changes
         if(needsOrgUpdate){
           const response2 = await apicaller.updateOrgData(newData)
           var status = response2.status
@@ -94,7 +80,6 @@ module.exports = async (args) => {
           }
         }
        
-        // Step 3 - delete m10n data by hitting /delete-org-data
         const response3 = await apicaller.deleteAllM10nData()
         var status = response3.status
         logger.debug('response status is ' + response3.status)
@@ -109,7 +94,6 @@ module.exports = async (args) => {
         logger.info('If you\'re running Apigee OPDK, you can also check the job status by hitting')
         logger.info('GET https://<yourdomain>.com/v1/mint/asyncjobs/' + response3.data.id )
 
-        // Step 4 Sync Mint with Org
         logger.info('Waiting for 1 minute allowing the cleanup to conclude ...')
         sleep.sleep(60)
         logger.info('Now syncing up Monetization with the org data (may take a few minutes)...')

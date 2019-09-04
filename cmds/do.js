@@ -23,22 +23,14 @@ var logger = winston.createLogger({
   ]
 });
 
-let UNAME
-let PASS
-let ORG
-let ENV // currently not necessary in this do.js
-
 let ACTION
 let RESOURCE
 let ID
-
-
 let LOG_LEVEL;
 
 module.exports = async (args) => {
   const spinner = ora().start()
   try {
-    // SET LOG LEVEL
     if (args.l || args.logLevel) {
       LOG_LEVEL = (args.l) ? args.l : args.logLevel
       if (LOG_LEVEL == 'silly' || LOG_LEVEL == 'debug' || LOG_LEVEL == 'verbose' || LOG_LEVEL == 'info' || LOG_LEVEL == 'warn' || LOG_LEVEL == 'error') {
@@ -47,13 +39,6 @@ module.exports = async (args) => {
     }
 
     apicaller.setLogger(logger);
-
-    // if (args.e || args.env) {
-    //   ENV = (args.e) ? args.e : args.env;
-    // }else{
-    //   logger.error(figures('✖ ') + 'Please include the --env (-e) argument to specify the target environment (e.g. dev,test or prod)')
-    //   process.exit()
-    // }
 
     var errorMsgAction = 'Please include the --action (-a) argument to specify the action (e.g. list,get or delete)'
     var errorMsgResource = 'Please include the --resource (-r) argument to specify the resource (e.g. apiproxy, apiproduct, productbundle, rateplan ...)'
@@ -101,29 +86,35 @@ module.exports = async (args) => {
       if (args.i || args.id) {
         ID = (args.i) ? args.i : args.id;
         logger.debug('identifier(s): ' + ID);
-        // TBD: minimum length for this operation is XYZ ... validate length of arr(ID)
+        var paramCount = 6
+        if(ID.length != paramCount){
+          logger.error(figures('✖ ') + 'This action requires ' + paramCount + ' input (-i) parameters')
+          process.exit()
+        }
       } else {
         logger.error(figures('✖ ') + errorMsgIdentifier)
         process.exit()
       }
     }
-
 
     if (ACTION == 'addPrepaidBalance') {
       if (args.i || args.id) {
         ID = (args.i) ? args.i : args.id;
         logger.debug('identifier: ' + ID);
+        var paramCount = 3
+        if(ID.length != paramCount){
+          logger.error(figures('✖ ') + 'This action requires ' + paramCount + ' input (-i) parameters')
+          process.exit()
+        }
       } else {
         logger.error(figures('✖ ') + errorMsgIdentifier)
         process.exit()
       }
     }
 
-    // -r / --resource not necessary for the following actions:
     var actionsNotRequiringResourceFlag = ['issueCredit', 'addPrepaidBalance']
-    //if(ACTION != 'issueCredit' || ACTION != 'addPrepaidBalance'){
-    if (!actionsNotRequiringResourceFlag.includes(ACTION)) {
 
+    if (!actionsNotRequiringResourceFlag.includes(ACTION)) {
       if (args.r || args.resource) {
         RESOURCE = (args.r) ? args.r : args.resource;
         logger.debug('resource: ' + RESOURCE);
@@ -131,15 +122,9 @@ module.exports = async (args) => {
         logger.error(figures('✖ ') + errorMsgResource)
         process.exit()
       }
-
     }
 
-
     logger.debug('current working directory: ' + process.cwd())
-
-    var rootDir = 'config/'
-
-    // Set credentials
     var credentialsArray = apicaller.setCredentialsAndOrg(args)
     if (!credentialsArray) {
       logger.error('credentials not found (set them either as arguments or environment variables)')
@@ -152,7 +137,6 @@ module.exports = async (args) => {
 
 
     switch (ACTION) {
-
       case 'list':
         var response = await apicaller.listResources(RESOURCE)
         logger.debug('response status (listResources(' + RESOURCE + ')) is ' + response.status)
@@ -162,7 +146,6 @@ module.exports = async (args) => {
           logger.error('call to obtain list of "' + RESOURCE + '" failed with status code ' + response.status)
           process.exit()
         }
-
         if (RESOURCE == 'productbundle') {
           var arr = response.data.monetizationPackage;
           logger.info(' ======= List of ' + RESOURCE + 's (IDs) =======')
@@ -216,7 +199,6 @@ module.exports = async (args) => {
         break
 
       case 'find':
-
         var response = await apicaller.findResource(RESOURCE, ID)
         logger.debug('response status (findResource(' + RESOURCE + ',' + ID + ')) is ' + response.status)
         logger.debug('response is:')
@@ -225,7 +207,6 @@ module.exports = async (args) => {
           logger.error('call to find resource with query "' + RESOURCE + '" failed with status code ' + response.status)
           process.exit()
         }
-
         if (RESOURCE == ' ') {
           var resp = response.data
           logger.info(' ======= Corresponding Developer ID =======')
@@ -295,7 +276,6 @@ module.exports = async (args) => {
         break
 
       case 'get':
-
         var response = await apicaller.getResource(RESOURCE, ID[0], ID[1]) //FYI: If -i entered multiple times in cmd, it's an array
         logger.debug('response status (getResource(' + RESOURCE + ',' + ID + ')) is ' + response.status)
         logger.debug('response is:')
@@ -336,7 +316,6 @@ module.exports = async (args) => {
           var output = table(data);
           console.log(output);
 
-          // suggest issueCredit operation
           var packageId = resp.ratePlan.monetizationPackage.id
           var ratePlanId = resp.ratePlan.id
           var developerId = resp.developer.id
@@ -386,7 +365,6 @@ module.exports = async (args) => {
         break
 
       case 'addPrepaidBalance':
-        // ID[0] = developerId, ID[1] = amount, ID[2] = currencyId
         var payload = { "amount": ID[1], "supportedCurrency": { "id": ID[2] } }
         logger.debug('payload is: ' + JSON.stringify(payload))
         var developerId = ID[0]
@@ -410,19 +388,14 @@ module.exports = async (args) => {
 
         var output = table(data);
         console.log(output);
-
-
         break
 
       default:
         logger.error('operation "' + OPERATION + '" unknown')
     }
 
-
     console.log(' ')
     process.exit()
-
-
 
   } catch (err) {
     spinner.stop()

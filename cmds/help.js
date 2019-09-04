@@ -18,8 +18,6 @@ const menus = {
     const subCmd = args._[0] === 'help'
       ? args._[1]
       : args._[0]
-  
-
     console.log(
         chalk.green(
             figlet.textSync("apigee-mint", {
@@ -29,7 +27,5 @@ const menus = {
             })
         )
     );
-    //console.log('Welcome to the M10n CLI')
-
     console.log(menus[subCmd] || menus.main)
   }

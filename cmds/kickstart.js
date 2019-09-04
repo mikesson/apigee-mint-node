@@ -37,7 +37,6 @@ let LOG_LEVEL
 module.exports = async (args) => {
   const spinner = ora().start()
   try {
-    // SET LOG LEVEL
     if (args.l || args.logLevel) {
       LOG_LEVEL = (args.l) ? args.l : args.logLevel
       if (LOG_LEVEL == 'silly' || LOG_LEVEL == 'debug' || LOG_LEVEL == 'verbose' || LOG_LEVEL == 'info' || LOG_LEVEL == 'warn' || LOG_LEVEL == 'error') {
@@ -46,8 +45,6 @@ module.exports = async (args) => {
     }
 
     apicaller.setLogger(logger);
-
-    //logger.debug('in args: ' + JSON.stringify(args));
     if (args.c || args.considerExistingSettings) {
       CONSIDER_EXISTING_SETTINGS = (args.c) ? args.c : args.considerExistingSettings;
     }
@@ -89,8 +86,7 @@ module.exports = async (args) => {
     var dirPurchaseRatePlanConfig = CONFIGDIR + '/11-purchaseRatePlan.yml'
     var dirReloadAccountBalanceConfig = CONFIGDIR + '/12-reloadAccountBalance.yml'
   
- 
-    // 1. Step - Load config files
+
     var configOrgProfile = yaml.safeLoad(fs.readFileSync(dirOrgProfileConfig, 'utf8'))
     logger.silly(JSON.stringify(configOrgProfile, null, 4))
     var configCurrencies = yaml.safeLoad(fs.readFileSync(dirCurrencyConfig, 'utf8'))
@@ -116,12 +112,8 @@ module.exports = async (args) => {
     var configReloadAccountBalance = yaml.safeLoad(fs.readFileSync(dirReloadAccountBalanceConfig), 'utf8')
     logger.silly(JSON.stringify(configReloadAccountBalance, null, 4))
 
-
     logger.info(figures('✔︎ ') + 'Configuration files found and loaded')
 
-
-    // Compose Mint API Product as "Product -> TRPaths -> TRPolicy"
-    // (TBD: make dynamic to where the !INCLUDE statement is, for now static)
     logger.silly('Now combining Product -> TRPaths -> TRPolicy') // ++
     configTRPaths[0].policies.response = [JSON.stringify(configTRPolicy)]
     configTRPaths[1].policies.response = [JSON.stringify(configTRPolicy)]
@@ -130,9 +122,7 @@ module.exports = async (args) => {
     logger.silly(JSON.stringify(configApiProduct, null, 4))
 
 
-    // Basic validation of what has been entered:
 
-    // a) default currency in org profile is same as specified currency in currency config
     var currencyInCurrencyConfig = configCurrencies.name.toUpperCase()
     var currencyInOrgProfile = configOrgProfile.currency.toUpperCase()
     if (currencyInCurrencyConfig != currencyInOrgProfile) {
@@ -142,12 +132,11 @@ module.exports = async (args) => {
       process.exit()
     }
 
-    // b) T&Cs: make sure date is in correct format and not in the past
     var termsStartDateFromFile = configTCs.startDate
     var termsStartDate = new Date(termsStartDateFromFile)
     var nowDate = new Date()
-    nowDate.setHours(0, 0, 0, 0) // removing time element
-    termsStartDate.setHours(0, 0, 0, 0) // removing time element
+    nowDate.setHours(0, 0, 0, 0)
+    termsStartDate.setHours(0, 0, 0, 0)
     if (nowDate.getTime() > termsStartDate.getTime()) {
       logger.silly('nowDate.getTime()=' + nowDate.getTime() + ' | termsStartDate.getTime()=' + termsStartDate.getTime())
       logger.error(figures('✖ ') + 'Please make sure the T&Cs start date is in the future (or today) and in the right format')
@@ -158,12 +147,11 @@ module.exports = async (args) => {
       process.exit()
     }
 
-    // c) RATE PLAN: make sure start is not in the past
     var ratePlanStartDateFromFile = configRatePlan.startDate
     var ratePlanStartDate = new Date(ratePlanStartDateFromFile)
     var nowDate = new Date()
-    nowDate.setHours(0, 0, 0, 0) // removing time element
-    ratePlanStartDate.setHours(0, 0, 0, 0) // removing time element
+    nowDate.setHours(0, 0, 0, 0)
+    ratePlanStartDate.setHours(0, 0, 0, 0)
     if (nowDate.getTime() > ratePlanStartDate.getTime()) {
       logger.error(figures('✖ ') + 'Please make sure the rate plan\'s start date is in the future (or today) and in the right format')
       logger.error(figures('') + 'Currently, you entered <' + ratePlanStartDateFromFile + '> in your rateplan.yml config')
@@ -188,18 +176,17 @@ module.exports = async (args) => {
     //   process.exit()
     // }
 
-    // instead of user-defined date, the current day is pre-populated in YYYY-MM-DD format
+
     configPurchaseRatePlan.startDate = new Date().toISOString().slice(0,10); // setting purchase date to today
 
 
-    // e) Get Proxy name from apiproduct-mint.yml
     var proxyNameFromAPIProduct = configApiProduct.proxies[0];
-    if (proxyNameFromAPIProduct == null) { // Check if not null
+    if (proxyNameFromAPIProduct == null) {
       logger.error(figures('✖ ') + 'API Proxy name is missing in API Product config')
       logger.info(figures('▶ ') + 'Tip: Open the apiproduct-mint.yml file and add a proxy name at $.proxies[0]')
       logger.error(figures('◼ ') + '[kickstart setup failed]')
     }
-    if (hasWhiteSpace(proxyNameFromAPIProduct)) { // Check if it contains whitespaces
+    if (hasWhiteSpace(proxyNameFromAPIProduct)) {
       logger.error(figures('✖ ') + 'API Proxy name does contain whitespaces which is not permitted')
       logger.info(figures('▶ ') + 'Tip: Open the apiproduct-mint.yml file and remove all whitespaces from the proxy name at $.proxies[0]')
       logger.error(figures('◼ ') + '[kickstart setup failed]')
@@ -210,7 +197,6 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'Validation Complete')
 
 
-    // 2. Step - Apply config files
     var credentialsArray = apicaller.setCredentialsAndOrg(args)
     if (!credentialsArray) {
       logger.error('credentials not found (set them either as arguments or environment variables)')
@@ -226,7 +212,6 @@ module.exports = async (args) => {
       process.exit()
     }
 
-    // populate org name in orgProfile
     configOrgProfile.description = ORG
     configOrgProfile.id = ORG
     configOrgProfile.name = ORG
@@ -242,7 +227,7 @@ module.exports = async (args) => {
 
     logger.info(figures('✔︎ ') + 'Organization Profile Updated')
 
-    var defaultCurrencyAlreadyExists = false; // check if the default currency from the org profile already exists
+    var defaultCurrencyAlreadyExists = false;
     if (CONSIDER_EXISTING_SETTINGS == 'true') {
       const response = await apicaller.getCurrencies()
       logger.debug('response status is ' + response.status)
@@ -277,7 +262,7 @@ module.exports = async (args) => {
       logger.info(figures('✔︎ ') + 'New supported currency added')
     }
 
-    var validTCsAlreadyExist = false; // check if there already are valid T&Cs for a kickstart setup
+    var validTCsAlreadyExist = false;
     if (CONSIDER_EXISTING_SETTINGS == 'true') {
       const response = await apicaller.getTermsAndConditions()
       logger.debug('response status is ' + response.status)
@@ -314,10 +299,7 @@ module.exports = async (args) => {
       logger.info(figures('✔︎ ') + 'New T&Cs added')
     }
 
-    // 4. Deploy API Proxy & Product & API Bundle/Package & Unplublished Rate Plan
-    // apigeetool deployproxy -u $username -p $password -o $org_name -e $env -n $proxy_name -d proxies
 
-    // 4. Deploy API Proxy
     var sdk = apigeetool.getPromiseSDK()
     var opts = {
       organization: ORG,
@@ -352,11 +334,6 @@ module.exports = async (args) => {
       });
 
 
-    // 4. Create API Product
-
-    // 4.1 Compose API Product (done above already)
-
-    // 4.2 Callout
     const responseAPIProduct = await apicaller.createAPIProduct(configApiProduct)
     logger.debug('response status (createAPIProduct()) is ' + responseAPIProduct.status)
     logger.debug('response is:')
@@ -371,7 +348,6 @@ module.exports = async (args) => {
     var API_PRODUCT_ID = configApiProduct.name;
 
 
-    // 5. Create API Product Bundle
     const responseAPIProductBundle = await apicaller.createAPIProductBundle(configApiProductBundle)
     logger.debug('response status (createAPIProductBundle()) is ' + responseAPIProductBundle.status)
     logger.debug('response is:')
@@ -384,9 +360,6 @@ module.exports = async (args) => {
 
     var PRODUCT_BUNDLE_ID = responseAPIProductBundle.data.id
 
-    // 6. Create Rate Plan
-
-    // 6.1 Set Rate Plan dynamic fields to complete config
     configRatePlan.currency.id = configCurrencies.name
     logger.debug('rate plan currency set to: ' + configRatePlan.currency.id)
     configRatePlan.ratePlanDetails[0].organization.id = ORG;
@@ -394,7 +367,7 @@ module.exports = async (args) => {
     logger.debug('============== the rate plan JSON to send ...')
     logger.debug(JSON.stringify(configRatePlan, null, '\t'))
 
-    // 6.2 Submit Rate Plan
+
     const responseRatePlan = await apicaller.createRatePlan(configRatePlan, PRODUCT_BUNDLE_ID)
     logger.debug('response status (createRatePlan()) is ' + responseRatePlan.status)
     logger.debug('response is:')
@@ -406,15 +379,10 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'API Rate Plan created')
 
 
-    var RATE_PLAN_ID = responseRatePlan.data.id; // store rate plan ID for further calls below
+    var RATE_PLAN_ID = responseRatePlan.data.id;
 
-
-    // 7. Create Developer
-
-    // 7.1 Set org name in config
     configDeveloper.organizationName = ORG
 
-    // 7.2 Submit Developer (object)
     const respDeveloper = await apicaller.createDeveloper(configDeveloper)
     logger.debug('response status (createDeveloper()) is ' + respDeveloper.status)
     logger.debug('response is:')
@@ -425,12 +393,11 @@ module.exports = async (args) => {
     }
     logger.info(figures('✔︎ ') + 'Developer created')
 
-    var DEVELOPER_ID = respDeveloper.data.developerId // Setting developer ID for further calls below
+    var DEVELOPER_ID = respDeveloper.data.developerId
     logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
-    var DEVELOPER_EMAIL = configDeveloper.email // Setting developer email for further calls below
+    var DEVELOPER_EMAIL = configDeveloper.email
     logger.silly('set DEVELOPER_EMAIL=' + DEVELOPER_EMAIL)
 
-    // 8. Create Developer App
     const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
     logger.debug('response status (createDeveloperApp()) is ' + respDeveloperApp.status)
     logger.debug('response is:')
@@ -441,10 +408,9 @@ module.exports = async (args) => {
     }
     logger.info(figures('✔︎ ') + 'Developer App created')
 
-    var API_KEY = respDeveloperApp.data.credentials[0].consumerKey // storing API Key for further use
+    var API_KEY = respDeveloperApp.data.credentials[0].consumerKey
     var APP_ID = respDeveloperApp.data.appId
 
-    // 9. Add Balance to Funds
 
     configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
     const respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
@@ -461,7 +427,7 @@ module.exports = async (args) => {
 
     sleep.sleep(5)
 
-    // 10. Purchase Rate Plan
+  
     configPurchaseRatePlan.developer.id = DEVELOPER_ID
     configPurchaseRatePlan.ratePlan.id = RATE_PLAN_ID
 
@@ -479,7 +445,6 @@ module.exports = async (args) => {
     sleep.sleep(3)
 
 
-    // 11. Get Usage Prior to API Calls
     const respDeveloperUsage = await apicaller.getDeveloperUsage(DEVELOPER_ID)
     logger.debug('response status (getDeveloperUsage()) is ' + respDeveloperUsage.status)
     logger.debug('response is:')
@@ -496,7 +461,6 @@ module.exports = async (args) => {
     sleep.sleep(10)
 
 
-    // 12. Hit Monetized API
     var urlToCall = PROXY_URL + '/ip?apikey=' + API_KEY
     logger.debug('combined URL to call a GET to: ' + urlToCall)
     logger.info('Executing three test calls now ...')
@@ -516,7 +480,7 @@ module.exports = async (args) => {
     logger.info('Waiting 10 seconds before re-checking usage ...')
     sleep.sleep(10)
 
-    // 13. Check Balance 2nd time
+
     const respDeveloperUsageAfterCall = await apicaller.getDeveloperUsage(DEVELOPER_ID)
     logger.debug('response status (getDeveloperUsage()) (after API calls) is ' + respDeveloperUsageAfterCall.status)
     logger.debug('response is:')
@@ -529,12 +493,12 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + ' Developer Usage Retrieved (after calling API), currently: ' + CURRENT_USAGE_AFTER_CALLS)
 
 
-    // 14. Compare usage, if higher, then successful
     var usageIncreased = CURRENT_USAGE_AFTER_CALLS > CURRENT_USAGE
     var increasedBy = CURRENT_USAGE_AFTER_CALLS - CURRENT_USAGE
     if (!usageIncreased) {
-      logger.error('usage did not increase, setup has failed (initial usage: ' + CURRENT_USAGE + ', usage after test calls: ' + CURRENT_USAGE_AFTER_CALLS + ')')
-          // 13. Summary of created entities TBD
+      logger.error('usage did not increase, setup has failed (initial usage: ' +
+       CURRENT_USAGE + ', usage after test calls: ' + CURRENT_USAGE_AFTER_CALLS + ')')
+
     logger.info('')
     logger.info('|==========================================|')
     logger.info('| ' + figures('✖ ') + 'Monetization Kickstart Setup Completed with Error |')
@@ -558,7 +522,6 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'Usage increased after API calls, Monetization enforced.')
     logger.debug('Usage increased by: ' + increasedBy)
 
-    // 13. Summary of created entities TBD
     logger.info('')
     logger.info('|==========================================|')
     logger.info('| ' + figures('★ ') + 'Monetization Kickstart Setup Complete! |')
@@ -586,18 +549,15 @@ module.exports = async (args) => {
     logger.error(err)
     process.exit()
   }
-
 }
 
 function sleep(millis) {
   return new Promise(resolve => setTimeout(resolve, millis));
 }
 
-
 function hasWhiteSpace(s) {
   return s.indexOf(' ') >= 0;
 }
-
 
 Date.prototype.withoutTime = function () {
   var d = new Date(this);
