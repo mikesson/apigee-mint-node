@@ -33,6 +33,10 @@ change directory
 cd apigee-mint-node
 ```
 
+run as
+```
+./bin/mint.js <commands> <args>
+```
 
 # <a name="about"></a> About
 
@@ -67,19 +71,28 @@ export APIGEE_PASSWORD="pwd"
 export APIGEE_ORGANIZATION="org-name"
  ```
 
+The following log levels are available:
+`debug`, `info`, `warning`, `error`, `off`
+
+Recommendation is to keep log level at `debug` when facing issues, `info` when using the tool ad-hoc and `error` when integrated into other systems.
+
+
+# What can I do?
+
+Jump to the details from this table:
+
+|Use Case      | 
+|---------------|
+| [adding prepaid balance to a developer account](#addprepaidbalance) |
+| [issuing credit to a developer](#issuecredit) |
+| [get details of a rate plan](#tableGet) |
+| [find active API product bundles by developer ID](#tableFind) |
+| [find accepted rate plans by developer ID](#tableFind) |
+
+
 # <a name="commands"></a> Commands
 
-## What can I do? / Use Cases
-
-Here's a list of operations you can perform with a link to the corresponding section.
-
-|Operation      | 
-|---------------|
-| [adding prepaid balance](#addprepaidbalance) |
-| [issuing credit](#issuecredit) |
-| [get details of a rate plan](#)
-
-
+This section describes all available commands with examples and syntax.
 
 ## kickstart
 
@@ -301,7 +314,7 @@ The table below lists available actions and required parameters for each.
 |---------------------------| --------------|---------------|
 | `developerRatePlan`       | details of a developer's rate plan | `do -a get -r developerRatePlan -i <developerID> -i <ratePlanID>` |
 
-#### list
+#### <a name="tableGet"></a> list
 
 | Available Resource        |  Description   | Example |
 |---------------------------| --------------|---------------|
@@ -309,7 +322,7 @@ The table below lists available actions and required parameters for each.
 | `productbundle`           | list of API product bundles per org | `do -a list -r productbundle` |
 | `rateplan`                | list of rate plans per org | `do -a list -r rateplan` |
 
-#### find
+#### <a name="tableFind"></a> find
 
 | Available Search Tag      |  Description   | Example |
 |---------------------------| --------------|---------------|

@@ -55,15 +55,12 @@ module.exports = {
 
         if (threshold <= logLevel){
             if(threshold = 4){
-                //console.debug(colour,text);
                 console.log(nl);
                 console.log(chalk.green(text));
             }else if(threshold = 1){
-                //console.error(colour,text);
                 console.log(chalk.red(text));
                 console.log(nl);
             }else{
-                //console.log(colour,text);
                 console.log(chalk.blue(text));
                 console.log(nl);
             }
