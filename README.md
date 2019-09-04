@@ -6,7 +6,7 @@ This tool allows you to interact with Apigee Monetization settings and entities 
 * [Install & Prepare](#installandprepare)
 * [About](#about)
 * [Common Parameters](#common-params)
-* **[What can I do?](#whatcanido)**
+* **[What can I do with it?](#whatcanido)**
 * [Commands](#commands)
 * [Konwn Issues](#known-issues)
 
@@ -78,7 +78,7 @@ The following log levels are available:
 Recommendation is to keep log level at `debug` when facing issues, `info` when using the tool ad-hoc and `error` when integrated into other systems.
 
 
-# <a name="whatcanido"></a> What can I do?
+# <a name="whatcanido"></a> What can I do with it?
 
 Jump to the details from this table:
 
@@ -344,10 +344,7 @@ The table below lists available actions and required parameters for each.
 
 
 
-## <a name="addprepaidbalance"></a>
-
-
-### Add prepaid balance to a developer account 
+### <a name="addprepaidbalance"></a> Add prepaid balance to a developer account 
 
 Example:
 ```
@@ -355,7 +352,7 @@ apigee-mint do -a addPrepaidBalance -i fdd76-2578f-df9f-1ca23f -i 100 -i gbp -l 
 ```
 
 
-### Issue credit to a developer
+### <a name="issuecredit"></a> Issue credit to a developer
 
 Example:
 ```
