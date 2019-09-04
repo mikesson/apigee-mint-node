@@ -6,15 +6,12 @@ const menus = {
       apigee-mint [command] <options>
 
       version .............. shows package version
-      kickstart ............ initializes an org with ready-to-demo monetization configurations
-      do .............. retrieves or removes monetization entities
+      kickstart ............ initializes an org with a ready-to-use monetization configuration
+      wheresMyConfig ....... returns the current directory of the kickstart config files  
+      do ................... operate with Monetization entities (get, list, find, delete)
+      cleanup .............. cleans up Monetization data for an org
       \n`
-  
-    // cleanup: `
-    //   apigee-mint cleanup <options>
-  
-    //   --something, -sth ..... something to do which is to be done
-    //   \n`,
+
   }
   
   module.exports = (args) => {

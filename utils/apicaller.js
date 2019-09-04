@@ -2,19 +2,19 @@ const axios = require('axios')
 const figures = require('figures');
 const winston = require('winston')
 
-// var logger = winston.createLogger({
-//   format: winston.format.combine(
-//     winston.format.colorize(),
-//     winston.format.simple()
-//   ),
-//   defaultMeta: {},
-//   transports: [
-//     new (winston.transports.Console)({
-//       level: (process.env.LOG_LEVEL) ? process.env.LOG_LEVEL : 'debug',
-//       name: 'console'
-//     })
-//   ]
-// });
+var logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.simple()
+  ),
+  defaultMeta: {},
+  transports: [
+    new (winston.transports.Console)({
+      level: (process.env.LOG_LEVEL) ? process.env.LOG_LEVEL : 'debug',
+      name: 'console'
+    })
+  ]
+});
 
 var logger;
 
@@ -32,6 +32,15 @@ module.exports = {
       url: 'https://api.enterprise.apigee.com/v1/organizations/' + ORG,
       params: {
         format: 'json'
+      }
+    }).catch(function (error) {
+      if (error.response) {
+        logger.error(figures('✖ ') + 'Error when retrieving org data, find more details below:')
+        logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+        // if (error.response.data.code == 'mint.genericMessage') {
+        //   logger.info(figures('▶ ') + 'Tip: Check whether the credentials you entered are correct.')
+        // }
+        process.exit()
       }
     })
     return results;
@@ -53,6 +62,17 @@ module.exports = {
     const results = await axios({
       method: 'post',
       url: 'https://api.enterprise.apigee.com/v1/mint/organizations/' + ORG + '/delete-org-data',
+      params: {
+        format: 'json'
+      }
+    })
+    return results;
+  },
+
+  syncUpMintData: async () => {
+    const results = await axios({
+      method: 'get',
+      url: 'https://api.enterprise.apigee.com/v1/mint/organizations/' + ORG + '/sync-organization?childEntities=true',
       params: {
         format: 'json'
       }

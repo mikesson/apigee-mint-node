@@ -11,20 +11,8 @@ module.exports = () => {
     }
 
     switch (cmd) {
-        case 'cleanup':
-            require('./cmds/cleanup.js')(args)
-            break
-        case 'verify-config':
-            require('./cmds/verifyConfig.js')(args)
-            break
-        case 'scaffold':
-            require('./cmds/scaffold.js')(args)
-            break
         case 'kickstart':
             require('./cmds/kickstart.js')(args)
-            break
-        case 'kickstart-dev':
-            require('./cmds/kickstart-dev.js')(args)
             break
         case 'do':
             require('./cmds/do.js')(args)
@@ -35,8 +23,20 @@ module.exports = () => {
         case 'help':
             require('./cmds/help.js')(args)
             break
+        case 'wheresMyConfig':
+            require('./cmds/wheresMyConfig.js')(args)
+            break
+        case 'cleanup':
+            require('./cmds/cleanup.js')(args)
+            break
+        case 'verifyConfig':
+            require('./cmds/verifyConfig.js')(args)
+            break
+        case 'scaffold':
+            require('./cmds/scaffold.js')(args)
+            break
         default:
-            console.error(`"${cmd}" is not a valid command!`)
+            console.error(`"${cmd}" is not a valid command`)
             break
     }
 }

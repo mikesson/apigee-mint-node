@@ -21,6 +21,7 @@
     "axios": ">=0.19.0",
     "chalk": "^2.4.2",
     "console.table": "^0.10.0",
+    "delay": "^4.3.0",
     "figlet": "^1.2.3",
     "figures": "^3.0.0",
     "fs": "0.0.1-security",

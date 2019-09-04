@@ -20,6 +20,7 @@ npm i apigee-mint -g
 
 *NOTE: The `-g` option places the apigee-mint command in your PATH. On "\*nix"-based machines, `sudo` may be required with the `-g` option. If you do not use `-g`, then you need to add the apigee-mint command to your PATH manually.*
 
+
 ## Run from repository
 
 clone the GitHub repo to your local directory
@@ -68,7 +69,7 @@ export APIGEE_ORGANIZATION="org-name"
 
 # <a name="commands"></a> Commands
 
-## What can I do?
+## What can I do? / Use Cases
 
 Here's a list of operations you can perform with a link to the corresponding section.
 
@@ -76,6 +77,7 @@ Here's a list of operations you can perform with a link to the corresponding sec
 |---------------|
 | [adding prepaid balance](#addprepaidbalance) |
 | [issuing credit](#issuecredit) |
+| [get details of a rate plan](#)
 
 
 
@@ -253,15 +255,6 @@ The API Product YML config has been split for more flexibility with Transaction 
 
 Perform common CRUD operations, view data points and find Monetization resources.
 
-### Examples
-
-First, list the resources (returns IDs)
-
-```apigee-mint do -a list -r productbundle -l info```
-
-Second, delete the chosen resource by specifying its ID
-
-```apigee-mint do -a delete -r productbundle -i <id_of_bundle> -l info```
 
 ### Parameters
 
@@ -322,9 +315,9 @@ The table below lists available actions and required parameters for each.
 |---------------------------| --------------|---------------|
 | `apps-byDevEmail` | finds apps by developer email | `do -a find -i apps-byDevEmail` |
 | `apps-byDevId`  | finds apps by developer ID | `do -a find -i apps-byDevId` |
-| `apiProductBundles-byDevId-activeOnly` | finds *active only* API product bundles by developer ID | `do -a find -i apiProductBundles-byDevId-activeOnly -i <id>` |
+| `apiProductBundles-byDevId-activeOnly` | finds **active only** API product bundles by developer ID | `do -a find -i apiProductBundles-byDevId-activeOnly -i <id>` |
 | `apiProductBundles-byDevId-includeExpired`| finds all API product bundles by developer ID | `do -a find -i apiProductBundles-byDevId-includeExpired -i <id>` |
-| `acceptedRatePlan-byDevId` | finds accepted rate plans by developer ID | `do -a find -i acceptedRatePlan-byDevId -i <id>` |
+| `acceptedRatePlan-byDevId` | finds accepted rate plans by developer ID | `do -a find -i acceptedRatePlan-byDevId -i <developerId>` |
 
 
 #### delete
@@ -339,27 +332,49 @@ The table below lists available actions and required parameters for each.
 
 ## <a name="addprepaidbalance"></a>
 
-Add prepaid balance to a developer account 
+
+### Add prepaid balance to a developer account 
 
 Example:
-`do -a addPrepaidBalance -i fdd76257-cd71-xzxx-xxxx-8fdf9f1ca23f -i 100 -i gbp -l debug`
+```
+apigee-mint do -a addPrepaidBalance -i fdd76-2578f-df9f-1ca23f -i 100 -i gbp -l debug
+```
 
 
+### Issue credit to a developer
 
-
+Example:
+```
+apigee-mint do -a issueCredit -i product-bundle-1 -i product-bundle-1-rateplan-1 -i fdd76-2578f-df9f-1ca23f -i gbp -i 100 -i 'sample refund'
+```
 
  
 # <a name="known-issues"></a> Known Issues
 
 
+## Error when adding developer balance
 ```
 error: ✖ Error when adding developer balance, find more details below:
 error: HTTP 400 | {"code":"mint.invalidTransaction","message":"Invalid transaction: Datastore Error","contexts":[],"cause":{"message":"Invalid transaction: Datastore Error","contexts":[]}}
 ```
+Retry the operation if the above error message appears
 
 
+## apigee-mint not executable
+```
+apigee-mint: command not found
+```
+To resolve this, make sure the npm /bin or /apigee-mint directory is in your $PATH variable.
 
+1. Check the npm prefix with `npm get prefix`
+2. Check if the above prefix is part of the PATH variable with `echo $PATH`
+2. If not, add it as follows:
+- `sudo nano /etc/paths` - enter your password when prompted
+- go to the bottom of the file and enter the path from `npm get prefix` + `/bin`, e.g. /Users/user123/.npm-global/bin
+- Hit CONTROL + X to quit, enter Y to save and ENTER to save to existing file
+- To test it, enter `echo $PATH` in a **new** terminal window. You should see the added path now
 
+Also, if you don't want to use npm, you can alawys clone the GitHub repo and run all commands with `./bin/mint.js <command>` from the repo's root directory
 
 #
 
