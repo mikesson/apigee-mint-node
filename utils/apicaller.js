@@ -1,3 +1,18 @@
+// Copyright 2019 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
 const axios = require('axios')
 const figures = require('figures');
 const winston = require('winston')
@@ -37,9 +52,6 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when retrieving org data, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if (error.response.data.code == 'mint.genericMessage') {
-        //   logger.info(figures('▶ ') + 'Tip: Check whether the credentials you entered are correct.')
-        // }
         process.exit()
       }
     })
@@ -239,9 +251,6 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when creating API rate plan, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if(error.response.data.code == 'mint.resourceAlreadyExists'){
-        //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-        // }
         process.exit()
       }
     })
@@ -261,9 +270,6 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when creating Developer, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if(error.response.data.code == 'known_error_code'){
-        //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-        // }
         process.exit()
       }
     })
@@ -283,9 +289,6 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when creating Developer App, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if(error.response.data.code == 'known_error_code'){
-        //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-        // }
         process.exit()
       }
     })
@@ -304,9 +307,6 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when adding developer balance, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if(error.response.data.code == 'known_error_code'){
-        //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-        // }
         process.exit()
       }
     })
@@ -325,9 +325,6 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when purchasing rate plan, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if(error.response.data.code == 'known_error_code'){
-        //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-        // }
         process.exit()
       }
     })
@@ -346,38 +343,14 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when issuing credit, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        // if(error.response.data.code == 'known_error_code'){
-        //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-        // }
         process.exit()
       }
     })
     return results;
   },
 
-  // addPrepaidBalance: async (developerId) => {
-  //   const results = await axios({
-  //     method: 'post',
-  //     url: 'https://api.enterprise.apigee.com/v1/mint/organizations/' + ORG + '/developers/' + developerId + '/developer-balances',
-  //     params: {
-  //       format: 'json'
-  //     }
-  //   }).catch(function (error) {
-  //     if (error.response) {
-  //       logger.error(figures('✖ ') + 'Error when issuing credit, find more details below:')
-  //       logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-  //       // if(error.response.data.code == 'known_error_code'){
-  //       //   logger.info(figures('▶ ') + 'Tip: <some tip ...>')
-  //       // }
-  //       process.exit()
-  //     }
-  //   })
-  //   return results;
-  // },
-
   setCredentialsAndOrg: (args) => {
     logger.debug('Setting credentials and org now ...');
-    //first look at env vars as declarations in command have precedence
     UNAME = process.env.APIGEE_USERNAME;
     PASS = process.env.APIGEE_PASSWORD;
     ORG = process.env.APIGEE_ORGANIZATION;
@@ -416,8 +389,6 @@ module.exports = {
     return [UNAME, PASS, ORG];;
   },
 
-
-  ///// all for do.js below
 
   listResources: async (resource) => {
     var url;
@@ -504,10 +475,7 @@ module.exports = {
     })
     return results;
   },
-
-
 }
-
 
 function setRequestDefaults() {
   AUTH_TOKEN = 'Basic ' + Buffer.from(UNAME + ':' + PASS).toString('base64');

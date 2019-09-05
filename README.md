@@ -421,4 +421,4 @@ Also, if you don't want to use npm, you can alawys clone the GitHub repo and run
 
 #
 
-This is not an official Google product
+This is not an officially supported Google product
