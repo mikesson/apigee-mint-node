@@ -1,6 +1,6 @@
 {
   "name": "apigee-mint",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Command-Line Utility for Apigee Monetization",
   "main": "index.js",
   "scripts": {

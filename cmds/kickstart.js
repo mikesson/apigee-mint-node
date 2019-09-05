@@ -235,7 +235,7 @@ module.exports = async (args) => {
     logger.debug('response status (updateOrgProfile()) is ' + response.status)
     logger.debug('response is:')
     logger.debug(JSON.stringify(response.data, null, '\t'))
-    if (response.status != 200) {
+    if (response.status > 201) {
       logger.error('call to obtain org details failed with status code ' + response.status)
       process.exit()
     }
@@ -307,7 +307,7 @@ module.exports = async (args) => {
       logger.debug('response status (addTermsAndConditions()) is ' + response3.status)
       logger.debug('response is:')
       logger.debug(JSON.stringify(response.data, null, '\t'))
-      if (response3.status != 200) {
+      if (response3.status > 201) {
         logger.error('call to add T&Cs failed with status code ' + response3.status)
         process.exit()
       }
