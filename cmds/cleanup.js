@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 const ora = require('ora')
 const apicaller = require('../utils/apicaller')
 const winston = require('winston')

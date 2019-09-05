@@ -191,7 +191,9 @@ export DIR_CONFIG=config-{yourSuffix}
 
 5. Run the command
 
-- `apigee-mint kickstart -e test -l info -c true`
+- `apigee-mint kickstart -e test -l info -c false`
+
+**(Note that `-c false` indicates that default org values are being overwritten)**
 
 For reference, this is how a successful kickstart execution looks like:
 

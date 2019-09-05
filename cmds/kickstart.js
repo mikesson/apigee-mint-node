@@ -270,7 +270,7 @@ module.exports = async (args) => {
       logger.debug('response status (addCurrency()) is ' + response2.status)
       logger.debug('response is:')
       logger.debug(JSON.stringify(response.data, null, '\t'))
-      if (response2.status != 200) {
+      if (response2.status > 201) {
         logger.error('call to add currency failed with status code ' + response2.status)
         process.exit()
       }
