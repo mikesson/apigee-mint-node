@@ -132,6 +132,8 @@ Specify the environment name for the setup, e.g. dev/test/prod
 
 (optional, the directory where the config files reside, default: `config`)
 
+**Note:** If it starts with a `/`, it is considered an absolute path, otherwise relative.
+
 You can also store this in an environment variable:
 
 ```
@@ -188,6 +190,11 @@ export DIR_CONFIG=config-{yourSuffix}
 - 4.3 Set end date of rate plan (any date in the future)
 
   `8-ratePlan.yml -> endDate` 
+
+
+5. Make sure you're in the repo's root directory
+
+  `cd [where_you_cloned_this_repo]/apigee-mint-node`
 
 5. Run the command
 
@@ -314,7 +321,7 @@ The table below lists available actions and required parameters for each.
 | `list`                | `-r resourceType` |  `/` |  `/` |
 | `get`                 | `-r resourceType` |  `-i resourceID` |  `/` |
 | `delete`              | `-r resourceType` | `-i resourceID` | `/` |
-| `find`                | `-i searchTag`    | `-i resourceID` | `/` |
+| `find`                | `-r searchTag`    | `-i resourceID` | `/` |
 | `addPrepaidBalance`   | `-i developerId`  | `-i amount` | `-i currencyCode` |
 | `issueCredit`         | `-i packageId`    | `-i ratePlanId` | `-i developerId` | `-i currencyId` | `-i creditAmount` | `-i creditDescription` |
 
