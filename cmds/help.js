@@ -36,7 +36,7 @@ const menus = {
     console.log(
         chalk.green(
             figlet.textSync("apigee-mint", {
-                font: "univers",
+                font: "Univers",
                 horizontalLayout: "default",
                 verticalLayout: "default"
             })

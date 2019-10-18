@@ -1,9 +1,10 @@
 # Mint Node - Apigee Monetization tool
 
-This tool allows you to interact with Apigee Monetization settings and entities through automated scripts and YML config files.
+This tool allows you to interact with Apigee Monetization settings and entities through commands, automated scripts and YML config files.
 
 
 * [Install & Prepare](#installandprepare)
+* [Prerequisites](#prereqs)
 * [About](#about)
 * [Common Parameters](#common-params)
 * **[What can I do with it?](#whatcanido)**
@@ -24,31 +25,40 @@ npm i apigee-mint -g
 
 ## Run from repository
 
-clone the GitHub repo to your local directory
+1. `cd` to your local target directory and clone the GitHub repo:
 ```
 git clone git@github.com:mikesson/apigee-mint-node.git
 ```
 
-change directory
+2. Change directory
 ```
 cd apigee-mint-node
 ```
 
-run as
+3. Install packages
+```
+npm install
+```
+
+4. Run command with:
 ```
 ./bin/mint.js <commands> <args>
 ```
 
+# <a name="prereqs"></a> Prerequisites
+
+- Apigee Edge account
+- User credentials with the `Organization Administrator` role.
+- Monetization enabled on your Apigee organization ([How do I enable it?](https://docs.apigee.com/api-platform/monetization/enabling-monetization-organization))
+- Familiarity with the basic features and concepts of Apigee such as API Proxies, API Products and environments
+
+For more information about Apigee, refer to the [Apigee Docs](http://docs.apigee.com).
+
 # <a name="about"></a> About
 
-An Apigee Edge account is required to perform any actions with apigee-mint. Also, the Monetization module needs to be enabled and configured.
+This tool uses Apigee's Monetization module. If you want to learn more about it, read about our [API monetization concepts](https://docs.apigee.com/api-platform/monetization/basics-monetization) within Apigee. 
 
-You need to be familiar with basic concepts and features of Apigee Edge such as API Proxies, API Products and environments. For more information, refer to the [Apigee Edge Docs](http://docs.apigee.com).
-
-You should be aware of the [Monetization concepts](https://docs.apigee.com/api-platform/monetization/basics-monetization) within Apigee Edge. 
-
-
-This high-level diagram shows the involved entities when using Apigee with Monetization:
+This high-level diagram shows the entities involved when using Apigee with Monetization:
 
 ![apigee-entities-with-monetization](https://raw.githubusercontent.com/mikesson/apigee-mint-node/master/img/apigee-entities-with-monetization.png)
 

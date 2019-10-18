@@ -108,4 +108,4 @@ typings/
 
 config-custom/
 .test-commands
-
+test/
