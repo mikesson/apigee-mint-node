@@ -331,9 +331,6 @@ module.exports = async (args) => {
       logger.info(figures('✔︎ ') + 'New T&Cs added')
     }
 
-
-
-
     configDeveloper.organizationName = ORG
 
     const respDeveloper = await apicaller.createDeveloper(configDeveloper)
@@ -345,7 +342,6 @@ module.exports = async (args) => {
       process.exit()
     }
     logger.info(figures('✔︎ ') + 'Developer created')
-
 
     var DEVELOPER_ID = respDeveloper.data.developerId
     logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
@@ -426,7 +422,7 @@ module.exports = async (args) => {
     logger.debug('response is:')
     logger.debug(JSON.stringify(respDeveloperApp.data, null, '\t'))
     if (respDeveloperApp.status > 201) {
-      logger.error('call to create Developer App failed with status code ' + respDeveloper.status)
+      logger.error('call to create Developer App failed with status code ' + respDeveloperApp.status)
       process.exit()
     }
     logger.info(figures('✔︎ ') + 'Developer App created')
