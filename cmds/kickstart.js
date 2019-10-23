@@ -76,16 +76,16 @@ module.exports = async (args) => {
       logger.info('CONFIGDIR parameter found in command args: "' + CONFIGDIR + '"')
     } else {
       var dirInEnvVar = (process.env.DIR_CONFIG) ? process.env.DIR_CONFIG : false
-      if(!dirInEnvVar){
+      if (!dirInEnvVar) {
         CONFIGDIR = 'config'
         logger.info('CONFIGDIR parameter not found in args or as environment variable, defaulting to: "' + CONFIGDIR + '"')
-      }else{
+      } else {
         CONFIGDIR = dirInEnvVar
         logger.info('CONFIGDIR parameter found as environment variable: "' + CONFIGDIR + '"')
-      } 
+      }
     }
 
-    logger.debug('considerExistingSettings: ' + CONSIDER_EXISTING_SETTINGS);
+    logger.debug('considerExistingSettings set to: ' + CONSIDER_EXISTING_SETTINGS);
     logger.debug('current working directory: ' + process.cwd());
 
     var dirOrgProfileConfig = CONFIGDIR + '/1-orgProfile.yml'
@@ -100,7 +100,7 @@ module.exports = async (args) => {
     var dirDeveloperAppConfig = CONFIGDIR + '/10-developerApp.yml'
     var dirPurchaseRatePlanConfig = CONFIGDIR + '/11-purchaseRatePlan.yml'
     var dirReloadAccountBalanceConfig = CONFIGDIR + '/12-reloadAccountBalance.yml'
-  
+
 
     var configOrgProfile = yaml.safeLoad(fs.readFileSync(dirOrgProfileConfig, 'utf8'))
     logger.silly(JSON.stringify(configOrgProfile, null, 4))
@@ -177,7 +177,7 @@ module.exports = async (args) => {
     }
 
 
-    configPurchaseRatePlan.startDate = new Date().toISOString().slice(0,10); // setting purchase date to today
+    configPurchaseRatePlan.startDate = new Date().toISOString().slice(0, 10); // setting purchase date to today
 
 
     var proxyNameFromAPIProduct = configApiProduct.proxies[0];
@@ -214,7 +214,7 @@ module.exports = async (args) => {
     configOrgProfile.name = ORG
 
     // Validation
-    
+
     logger.debug('checking if developer email already exists ...')
     var DEVELOPER_EMAIL = configDeveloper.email
     logger.silly('set DEVELOPER_EMAIL=' + DEVELOPER_EMAIL)
@@ -287,7 +287,7 @@ module.exports = async (args) => {
         logger.info('(considering existing settings) No, chosen default currency does not exist yet, adding one ...')
       }
 
-      configCurrencies.organization.id = ORG 
+      configCurrencies.organization.id = ORG
       const response2 = await apicaller.addCurrency(configCurrencies)
       logger.debug('response status (addCurrency()) is ' + response2.status)
       logger.debug('response is:')
@@ -368,7 +368,7 @@ module.exports = async (args) => {
     var APP_ID = respDeveloperApp.data.appId
 
 
-    
+
 
 
     configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
@@ -549,26 +549,26 @@ module.exports = async (args) => {
     var increasedBy = CURRENT_USAGE_AFTER_CALLS - CURRENT_USAGE
     if (!usageIncreased) {
       logger.error('usage did not increase, setup has failed (initial usage: ' +
-       CURRENT_USAGE + ', usage after test calls: ' + CURRENT_USAGE_AFTER_CALLS + ')')
+        CURRENT_USAGE + ', usage after test calls: ' + CURRENT_USAGE_AFTER_CALLS + ')')
 
-    logger.info('')
-    logger.info('|==========================================|')
-    logger.info('| ' + figures('✖ ') + 'Monetization Kickstart Setup Completed with Error |')
-    logger.info('|==========================================|')
-    logger.info('')
-    logger.info('Summary of created entities:')
-    logger.info('Proxy deployed (ID: ' + APIGEE_PROXY_NAME + ')')
-    logger.info('API Product created (ID: ' + API_PRODUCT_ID + ')')
-    logger.info('Product Bundle created (ID: ' + PRODUCT_BUNDLE_ID + ')')
-    logger.info('Rate Plan created (ID: ' + RATE_PLAN_ID + ')')
-    logger.info('Developer created (ID: ' + DEVELOPER_ID + ')')
-    logger.info('Developer App created (ID: ' + APP_ID + ')')
-    logger.info('App Credentials generated (API Key: ' + API_KEY + ')')
-    logger.info('Account topped up (Amount: ' + TOP_UP_AMOUNT + ')')
-    logger.info('')
-    logger.info('API URL for further troubleshooting:')
-    logger.info('GET ' + urlToCall)
-    logger.info('')
+      logger.info('')
+      logger.info('|==========================================|')
+      logger.info('| ' + figures('✖ ') + 'Monetization Kickstart Setup Completed with Error |')
+      logger.info('|==========================================|')
+      logger.info('')
+      logger.info('Summary of created entities:')
+      logger.info('Proxy deployed (ID: ' + APIGEE_PROXY_NAME + ')')
+      logger.info('API Product created (ID: ' + API_PRODUCT_ID + ')')
+      logger.info('Product Bundle created (ID: ' + PRODUCT_BUNDLE_ID + ')')
+      logger.info('Rate Plan created (ID: ' + RATE_PLAN_ID + ')')
+      logger.info('Developer created (ID: ' + DEVELOPER_ID + ')')
+      logger.info('Developer App created (ID: ' + APP_ID + ')')
+      logger.info('App Credentials generated (API Key: ' + API_KEY + ')')
+      logger.info('Account topped up (Amount: ' + TOP_UP_AMOUNT + ')')
+      logger.info('')
+      logger.info('API URL for further troubleshooting:')
+      logger.info('GET ' + urlToCall)
+      logger.info('')
       process.exit()
     }
     logger.info(figures('✔︎ ') + 'Usage increased after API calls, Monetization enforced.')
