@@ -148,6 +148,36 @@ module.exports = {
     return results;
   },
 
+  getDeveloperByEmail: async (devEmail) => {
+    const results = await axios({
+      method: 'get',
+      url: 'https://api.enterprise.apigee.com/v1/organizations/' + ORG + '/developers/' + devEmail,
+      params: {
+        format: 'json'
+      }
+    }).catch(function (error) {
+      logger.debug('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+      return error.response
+    })
+    return results
+  },
+
+
+  getApiProductById: async (apiProductId) => {
+    const results = await axios({
+      method: 'get',
+      url: 'https://api.enterprise.apigee.com/v1/organizations/' + ORG + '/apiproducts/' + apiProductId,
+      params: {
+        format: 'json'
+      }
+    }).catch(function (error) {
+      logger.debug('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
+      return error.response
+    })
+    return results
+  },
+
+
 
   executeTestCall: async (targetUrl) => {
     const results = await axios({
@@ -307,7 +337,7 @@ module.exports = {
       if (error.response) {
         logger.error(figures('✖ ') + 'Error when adding developer balance, find more details below:')
         logger.error('HTTP ' + error.response.status + ' | ' + JSON.stringify(error.response.data))
-        process.exit()
+        //process.exit()
       }
     })
     return results;

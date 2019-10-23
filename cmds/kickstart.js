@@ -176,21 +176,6 @@ module.exports = async (args) => {
       process.exit()
     }
 
-    // d) PURCHASE RATE PLAN: make sure start date is not in the past
-    // var purchaseRatePlanStartDateFromFile = configPurchaseRatePlan.startDate
-    // var purchaseRatePlanStartDate = new Date(purchaseRatePlanStartDateFromFile)
-    // var nowDate = new Date()
-    // nowDate.setHours(0, 0, 0, 0) // removing time element
-    // purchaseRatePlanStartDate.setHours(0, 0, 0, 0) // removing time element
-    // if (nowDate.getTime() > purchaseRatePlanStartDate.getTime()) {
-    //   logger.error(figures('✖ ') + 'Please make sure the target purchase date of the rate planis in the future (or today) and in the right format')
-    //   logger.error(figures('') + 'Currently, you entered <' + purchaseRatePlanStartDateFromFile + '> in your purchaseRatePlan.yml config')
-    //   logger.error(figures('') + 'Your system tells <' + nowDate + '> now')
-    //   logger.info(figures('▶ ') + 'Tip: Change the start date to today and (optionally) the time to a few hours/minutes ahead of now.')
-    //   logger.error(figures('◼ ') + '[kickstart setup failed]')
-    //   process.exit()
-    // }
-
 
     configPurchaseRatePlan.startDate = new Date().toISOString().slice(0,10); // setting purchase date to today
 
@@ -208,9 +193,6 @@ module.exports = async (args) => {
     }
     APIGEE_PROXY_NAME = proxyNameFromAPIProduct
     logger.debug('proxy name found in apiproduct-mint.yml config: "' + APIGEE_PROXY_NAME + '"')
-
-    logger.info(figures('✔︎ ') + 'Validation Complete')
-
 
     var credentialsArray = apicaller.setCredentialsAndOrg(args)
     if (!credentialsArray) {
@@ -230,6 +212,46 @@ module.exports = async (args) => {
     configOrgProfile.description = ORG
     configOrgProfile.id = ORG
     configOrgProfile.name = ORG
+
+    // Validation
+    
+    logger.debug('checking if developer email already exists ...')
+    var DEVELOPER_EMAIL = configDeveloper.email
+    logger.silly('set DEVELOPER_EMAIL=' + DEVELOPER_EMAIL)
+
+    const respDeveloperExists = await apicaller.getDeveloperByEmail(DEVELOPER_EMAIL)
+    logger.debug('response status (getDeveloperByEmail()) is ' + respDeveloperExists.status)
+    logger.debug('response is:')
+    logger.debug(JSON.stringify(respDeveloperExists.data, null, '\t'))
+    if (respDeveloperExists.status == 200) {
+      logger.error(figures('✖ ') + 'Developer with email "' + DEVELOPER_EMAIL + '" already exists')
+      logger.info(figures('▶ ') + 'Tip: Change the developer email in the "9-developer.yml" config file as it needs to be unique')
+      logger.error(figures('◼ ') + '[kickstart setup failed]')
+      process.exit()
+    }
+    logger.debug('ok, developer email is unique')
+
+
+    logger.debug('checking if API product exists ...')
+    var API_PRODUCT_ID = configApiProduct.name
+    logger.silly('set API_PRODUCT_ID=' + API_PRODUCT_ID)
+    const respApiProductExists = await apicaller.getApiProductById(API_PRODUCT_ID)
+    logger.debug('response status (getApiProductById()) is ' + respApiProductExists.status)
+    logger.debug('response is:')
+    logger.debug(JSON.stringify(respApiProductExists.data, null, '\t'))
+    if (respApiProductExists.status == 200) {
+      logger.error(figures('✖ ') + 'API product with ID "' + API_PRODUCT_ID + '" already exists')
+      logger.info(figures('▶ ') + 'Tip: Change the API product \'name\' in the "4-apiProductMint.yml" config file as it needs to be unique')
+      logger.error(figures('◼ ') + '[kickstart setup failed]')
+      process.exit()
+    }
+    logger.debug('ok, API product name is unique')
+
+
+    logger.info(figures('✔︎ ') + 'Validation Complete')
+    process.exit()
+
+
 
     const response = await apicaller.updateOrgProfile(configOrgProfile)
     logger.debug('response status (updateOrgProfile()) is ' + response.status)
@@ -315,6 +337,62 @@ module.exports = async (args) => {
     }
 
 
+
+
+    configDeveloper.organizationName = ORG
+
+    const respDeveloper = await apicaller.createDeveloper(configDeveloper)
+    logger.debug('response status (createDeveloper()) is ' + respDeveloper.status)
+    logger.debug('response is:')
+    logger.debug(JSON.stringify(respDeveloper.data, null, '\t'))
+    if (respDeveloper.status > 201) {
+      logger.error('call to create Developer failed with status code ' + respDeveloper.status)
+      process.exit()
+    }
+    logger.info(figures('✔︎ ') + 'Developer created')
+
+    var DEVELOPER_ID = respDeveloper.data.developerId
+    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
+
+    const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
+    logger.debug('response status (createDeveloperApp()) is ' + respDeveloperApp.status)
+    logger.debug('response is:')
+    logger.debug(JSON.stringify(respDeveloperApp.data, null, '\t'))
+    if (respDeveloperApp.status > 201) {
+      logger.error('call to create Developer App failed with status code ' + respDeveloper.status)
+      process.exit()
+    }
+    logger.info(figures('✔︎ ') + 'Developer App created')
+
+    var API_KEY = respDeveloperApp.data.credentials[0].consumerKey
+    var APP_ID = respDeveloperApp.data.appId
+
+
+    
+
+
+    configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
+    var respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
+    logger.debug('response status (reloadDeveloperBalance()) is ' + respReloadAccountBalance.status)
+    logger.debug('response is:')
+    logger.debug(JSON.stringify(respReloadAccountBalance.data, null, '\t'))
+    if (respReloadAccountBalance.status > 201) {
+      logger.debug('call to add balance to funds failed with status code ' + respDeveloper.status)
+      logger.debug('1 retry in 5 seconds ...')
+      sleep.sleep(5)
+      // only one more retry
+      respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
+      logger.debug('response status (reloadDeveloperBalance())#2 is ' + respReloadAccountBalance.status)
+      logger.debug('response is:')
+      logger.debug(JSON.stringify(respReloadAccountBalance.data, null, '\t'))
+      if (respReloadAccountBalance.status > 201) {
+        logger.error('call to add balance to funds failed with status code ' + respDeveloper.status)
+        process.exit()
+      }
+    }
+    logger.info(figures('✔︎ ') + 'Balance added to developer account')
+
+
     var sdk = apigeetool.getPromiseSDK()
     var opts = {
       organization: ORG,
@@ -360,7 +438,6 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'API Product created')
 
 
-    var API_PRODUCT_ID = configApiProduct.name;
 
 
     const responseAPIProductBundle = await apicaller.createAPIProductBundle(configApiProductBundle)
@@ -396,53 +473,13 @@ module.exports = async (args) => {
 
     var RATE_PLAN_ID = responseRatePlan.data.id;
 
-    configDeveloper.organizationName = ORG
 
-    const respDeveloper = await apicaller.createDeveloper(configDeveloper)
-    logger.debug('response status (createDeveloper()) is ' + respDeveloper.status)
-    logger.debug('response is:')
-    logger.debug(JSON.stringify(respDeveloper.data, null, '\t'))
-    if (respDeveloper.status > 201) {
-      logger.error('call to create Developer failed with status code ' + respDeveloper.status)
-      process.exit()
-    }
-    logger.info(figures('✔︎ ') + 'Developer created')
-
-    var DEVELOPER_ID = respDeveloper.data.developerId
-    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
-    var DEVELOPER_EMAIL = configDeveloper.email
-    logger.silly('set DEVELOPER_EMAIL=' + DEVELOPER_EMAIL)
-
-    const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
-    logger.debug('response status (createDeveloperApp()) is ' + respDeveloperApp.status)
-    logger.debug('response is:')
-    logger.debug(JSON.stringify(respDeveloperApp.data, null, '\t'))
-    if (respDeveloperApp.status > 201) {
-      logger.error('call to create Developer App failed with status code ' + respDeveloper.status)
-      process.exit()
-    }
-    logger.info(figures('✔︎ ') + 'Developer App created')
-
-    var API_KEY = respDeveloperApp.data.credentials[0].consumerKey
-    var APP_ID = respDeveloperApp.data.appId
-
-
-    configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
-    const respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
-    logger.debug('response status (createDeveloperApp()) is ' + respReloadAccountBalance.status)
-    logger.debug('response is:')
-    logger.debug(JSON.stringify(respReloadAccountBalance.data, null, '\t'))
-    if (respReloadAccountBalance.status > 201) {
-      logger.error('call to add balance to funds failed with status code ' + respDeveloper.status)
-      process.exit()
-    }
-    logger.info(figures('✔︎ ') + 'Balance has been added to developer account')
 
     var TOP_UP_AMOUNT = configReloadAccountBalance.amount
 
     sleep.sleep(5)
 
-  
+
     configPurchaseRatePlan.developer.id = DEVELOPER_ID
     configPurchaseRatePlan.ratePlan.id = RATE_PLAN_ID
 

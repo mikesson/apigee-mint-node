@@ -67,6 +67,7 @@ module.exports = async (args) => {
         console.log('Path is relative, resulting in the following target directory:')
         console.log(process.cwd() + '/' + CONFIGDIR)
       }
+      console.log('Please make sure this directory contains all necessary config files.')
     }
     console.log(' ')
     process.exit()
