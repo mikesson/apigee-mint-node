@@ -246,12 +246,7 @@ module.exports = async (args) => {
       process.exit()
     }
     logger.debug('ok, API product name is unique')
-
-
     logger.info(figures('✔︎ ') + 'Validation Complete')
-    process.exit()
-
-
 
     const response = await apicaller.updateOrgProfile(configOrgProfile)
     logger.debug('response status (updateOrgProfile()) is ' + response.status)
@@ -261,7 +256,7 @@ module.exports = async (args) => {
       logger.error('call to obtain org details failed with status code ' + response.status)
       process.exit()
     }
-
+    
     logger.info(figures('✔︎ ') + 'Organization Profile Updated')
 
     var defaultCurrencyAlreadyExists = false;
