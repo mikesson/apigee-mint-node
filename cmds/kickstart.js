@@ -347,6 +347,10 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'Developer created')
 
 
+    var DEVELOPER_ID = respDeveloper.data.developerId
+    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
+
+
     configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
     var respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
     logger.debug('response status (reloadDeveloperBalance()) is ' + respReloadAccountBalance.status)
@@ -414,9 +418,8 @@ module.exports = async (args) => {
     logger.info(figures('✔︎ ') + 'API Product created')
 
 
-    
-    var DEVELOPER_ID = respDeveloper.data.developerId
-    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
+
+
 
     const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
     logger.debug('response status (createDeveloperApp()) is ' + respDeveloperApp.status)
