@@ -346,25 +346,6 @@ module.exports = async (args) => {
     }
     logger.info(figures('✔︎ ') + 'Developer created')
 
-    var DEVELOPER_ID = respDeveloper.data.developerId
-    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
-
-    const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
-    logger.debug('response status (createDeveloperApp()) is ' + respDeveloperApp.status)
-    logger.debug('response is:')
-    logger.debug(JSON.stringify(respDeveloperApp.data, null, '\t'))
-    if (respDeveloperApp.status > 201) {
-      logger.error('call to create Developer App failed with status code ' + respDeveloper.status)
-      process.exit()
-    }
-    logger.info(figures('✔︎ ') + 'Developer App created')
-
-    var API_KEY = respDeveloperApp.data.credentials[0].consumerKey
-    var APP_ID = respDeveloperApp.data.appId
-
-
-
-
 
     configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
     var respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
@@ -432,6 +413,23 @@ module.exports = async (args) => {
     }
     logger.info(figures('✔︎ ') + 'API Product created')
 
+
+    
+    var DEVELOPER_ID = respDeveloper.data.developerId
+    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
+
+    const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
+    logger.debug('response status (createDeveloperApp()) is ' + respDeveloperApp.status)
+    logger.debug('response is:')
+    logger.debug(JSON.stringify(respDeveloperApp.data, null, '\t'))
+    if (respDeveloperApp.status > 201) {
+      logger.error('call to create Developer App failed with status code ' + respDeveloper.status)
+      process.exit()
+    }
+    logger.info(figures('✔︎ ') + 'Developer App created')
+
+    var API_KEY = respDeveloperApp.data.credentials[0].consumerKey
+    var APP_ID = respDeveloperApp.data.appId
 
 
 

@@ -1,6 +1,6 @@
 {
   "name": "apigee-mint",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Command-Line Utility for Apigee Monetization",
   "main": "index.js",
   "scripts": {
@@ -22,15 +22,15 @@
     "chalk": "^2.4.2",
     "console.table": "^0.10.0",
     "delay": "^4.3.0",
-    "figlet": "^1.2.3",
-    "figures": "^3.0.0",
+    "figlet": "^1.2.4",
+    "figures": "^3.1.0",
     "fs": "0.0.1-security",
     "js-yaml": "^3.13.1",
     "minimist": "^1.2.0",
     "ora": "^3.4.0",
     "path": "^0.12.7",
     "sleep": "^6.1.0",
-    "table": "^5.4.4",
+    "table": "^5.4.6",
     "winston": "^3.2.1"
   },
   "repository": {
