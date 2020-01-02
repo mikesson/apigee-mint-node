@@ -217,22 +217,6 @@ module.exports = async (args) => {
 
     // Validation
 
-    logger.debug('checking if developer email already exists ...')
-    var DEVELOPER_EMAIL = configDeveloper.email
-    logger.silly('set DEVELOPER_EMAIL=' + DEVELOPER_EMAIL)
-
-    const respDeveloperExists = await apicaller.getDeveloperByEmail(DEVELOPER_EMAIL)
-    logger.debug('response status (getDeveloperByEmail()) is ' + respDeveloperExists.status)
-    logger.debug('response is:')
-    logger.debug(JSON.stringify(respDeveloperExists.data, null, '\t'))
-    if (respDeveloperExists.status == 200) {
-      logger.error(figures('✖ ') + 'Developer with email "' + DEVELOPER_EMAIL + '" already exists')
-      logger.info(figures('▶ ') + 'Tip: Change the developer email in the "9-developer.yml" config file as it needs to be unique')
-      logger.error(figures('◼ ') + '[kickstart setup failed]')
-      process.exit()
-    }
-    logger.debug('ok, developer email is unique')
-
 
     logger.debug('checking if API product exists ...')
     var API_PRODUCT_ID = configApiProduct.name
@@ -335,19 +319,33 @@ module.exports = async (args) => {
 
     configDeveloper.organizationName = ORG
 
-    const respDeveloper = await apicaller.createDeveloper(configDeveloper)
-    logger.debug('response status (createDeveloper()) is ' + respDeveloper.status)
+
+    logger.debug('checking if developer email already exists ...')
+    var DEVELOPER_EMAIL = configDeveloper.email
+    logger.silly('set DEVELOPER_EMAIL=' + DEVELOPER_EMAIL)
+
+    const respDeveloperExists = await apicaller.getDeveloperByEmail(DEVELOPER_EMAIL)
+    logger.debug('response status (getDeveloperByEmail()) is ' + respDeveloperExists.status)
     logger.debug('response is:')
-    logger.debug(JSON.stringify(respDeveloper.data, null, '\t'))
-    if (respDeveloper.status > 201) {
-      logger.error('call to create Developer failed with status code ' + respDeveloper.status)
-      process.exit()
+    logger.debug(JSON.stringify(respDeveloperExists.data, null, '\t'))
+    if (respDeveloperExists.status == 200) {
+      logger.info(figures('✔︎ ') + 'Developer with email "' + DEVELOPER_EMAIL + '" already exists, skipping creation.')
+      var DEVELOPER_ID = respDeveloperExists.data.developerId
+      logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
+    }else{
+      logger.debug('developer email does not exist yet, creating new developer ...')
+      const respDeveloper = await apicaller.createDeveloper(configDeveloper)
+      logger.debug('response status (createDeveloper()) is ' + respDeveloper.status)
+      logger.debug('response is:')
+      logger.debug(JSON.stringify(respDeveloper.data, null, '\t'))
+      if (respDeveloper.status > 201) {
+        logger.error('call to create Developer failed with status code ' + respDeveloper.status)
+        process.exit()
+      }
+      logger.info(figures('✔︎ ') + 'Developer created')
+      var DEVELOPER_ID = respDeveloper.data.developerId
+      logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
     }
-    logger.info(figures('✔︎ ') + 'Developer created')
-
-    var DEVELOPER_ID = respDeveloper.data.developerId
-    logger.silly('set DEVELOPER_ID=' + DEVELOPER_ID)
-
 
     configReloadAccountBalance.supportedCurrency.id = configCurrencies.name.toLowerCase()
     var respReloadAccountBalance = await apicaller.reloadDeveloperBalance(configReloadAccountBalance, DEVELOPER_ID)
