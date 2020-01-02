@@ -19,9 +19,14 @@
     <ProxyEndpoints>
         <ProxyEndpoint>default</ProxyEndpoint>
     </ProxyEndpoints>
-    <Resources>
+
+    <!-- Uncomment below if you want to reference OpenAPI spec to this API Proxy (not supported in OPDK - Private Cloud).
+         You will also need to create a new file at /resources/openapi/association.json -->
+
+    <!-- <Resources>
         <Resource>openapi://association.json</Resource>
-    </Resources>
+    </Resources> -->
+    
     <Spec></Spec>
     <TargetServers/>
     <TargetEndpoints>
