@@ -397,7 +397,11 @@ module.exports = async (args) => {
         logger.debug(JSON.stringify(result))
       }, function (err) {
         logger.error(figures('✖ ') + 'Proxy Deployment failed - see error below:')
-        logger.error(JSON.stringify(err))
+        logger.error(err)
+        if(String(err).includes('Invalid virtual host reference')){
+          logger.info(figures('▶ ') + 'Tip: The default proxy directory refers to a virtual host which is not available in your environment, i.e. when running OPDK.')
+          logger.info(figures('▶ ') + 'Change the value in the <VirtualHost>...</VirtualHost> tag in /proxies/apiproxy/proxies/default.xml)')
+        }
         logger.error(figures('◼ ') + '[kickstart setup failed]')
         process.exit()
       });
