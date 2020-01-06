@@ -1,0 +1,13 @@
+# DEVELOPER APPLICATION
+---
+name: "test-app-credits-1"
+apiProducts:
+- mint-kickstart-product-credits-v1
+keyExpiresIn: -1
+attributes:
+- name: DisplayName
+  value: Test App - Credits Use v1
+- name: Notes
+  value: Developer App created as part of the Mint kickstart setup (custom credits rate plan) 
+scopes: []
+callbackUrl: https://url-for-3-legged.oauth/callback

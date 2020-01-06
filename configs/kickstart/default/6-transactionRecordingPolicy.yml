@@ -1,4 +1,5 @@
-# The M10n Transaction Recording Policy, to be inserted in the response flow by default
+# TRANSACTION RECORDING POLICY
+# by default inserted in the response flow (see 5-transactionRecordingPaths.yml)
 ---
 async: false
 continueOnError: false

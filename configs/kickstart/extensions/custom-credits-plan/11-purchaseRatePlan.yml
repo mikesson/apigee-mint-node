@@ -1,0 +1,11 @@
+# DEVELOPER TO PURCHASE RATE PLAN OPERATION
+---
+developer:
+  # dynamically set
+  id: '!INCLUDE{developerId}'
+ # dynamically set
+startDate: '!INCLUDE{dateToday}'
+ratePlan:
+  # dynamically set
+  id: '!INCLUDE{ratePlanId}' # set during runtime
+suppressWarning: false

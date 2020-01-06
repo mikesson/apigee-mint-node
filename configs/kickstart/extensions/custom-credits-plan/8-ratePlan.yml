@@ -1,0 +1,54 @@
+# RATE PLAN
+# defines the charging model. This rate plan contains following charges:
+# - Freemium: 5 Credits
+# - Flat-rate:
+#      1 Credit per custom attribute in API response
+---
+published: true
+advance: false
+type: STANDARD
+startDate: '2020-01-03 00:00:00'
+endDate: '2020-01-09 00:00:00'
+recurringStartUnit: 1
+recurringType: CALENDAR
+setUpFee: 0
+earlyTerminationFee: 0
+recurringFee: 0
+frequencyDuration: 1
+frequencyDurationType: MONTH
+prorate: true
+contractDuration: 1
+contractDurationType: MONTH
+isPrivate: false
+currency:
+  id: '!INCLUDE{currency-id}' # set during runtime
+displayName: 'Kickstart Plan Credits Based v1'
+name: 'Kickstart Plan Credits Based v1'
+description: 'Deducting credits based on charge attribute from API response'
+paymentDueDays: '30' 
+id: # not required
+freemiumUnit: 5
+ratePlanDetails:
+- aggregateFreemiumCounters: true
+  aggregateStandardCounters: true
+  aggregateTransactions: true
+  customPaymentTerm: true
+  meteringType: UNIT
+  organization:
+    id: '!INCLUDE{apigee-org}' # set during runtime
+  currency:
+    id: '!INCLUDE{currency-id}' # set during runtime
+  ratePlanRates:
+  - startUnit: 0
+    rate: 1
+    type: RATECARD
+  ratingParameter: Credit Charge
+  duration: 1
+  durationType: MONTH
+  type: RATECARD
+  ratingParameterUnit: Credit Charge
+  revenueType: NET
+  freemiumDuration: 0
+  freemiumDurationType: MONTH
+  freemiumUnit: 0
+  paymentDueDays: '30'

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest name="manifest">
+    <Policies>
+        <VersionInfo resourceName="Extract-Credit-Charge-JSON" version="SHA-512:77bac11beaac0878b0b51548dd0af24687f5f6b8c8656d5b47f7ad8dd13150ca047fd3eba6eb5636196565301c30adec048b681a221595bda3da429cc604ccf3"/>
+        <VersionInfo resourceName="Monetization-Limits-Check" version="SHA-512:0771d39f11814379fb01277f86bb34d876cfbb17883b8ed465cd2b5d1d318f815cabd6088edbc94698c6da716267b6466494e4b1af14ed5f9738b8f82a002073"/>
+        <VersionInfo resourceName="Product-Quota" version="SHA-512:5e0f009355be1be143496032b399f1fa825f52a7ab2fbbb20d39a0ec27f73acc9280a1b07f7c4c697131b9dddca190da28af1f126936297e5c3a41b2183857a0"/>
+        <VersionInfo resourceName="Spike-Arrest" version="SHA-512:944e826b7528bd9bdf69bbaf3468ec98344e23303a2b655eba4c628e817810fbd3af45b0e6dc6bf697975287924c490fc4c544190c18f36c0ab9d5c93640a69f"/>
+        <VersionInfo resourceName="Verify-API-Key" version="SHA-512:f55be0cbd632aee405b2bc1dea5629eb638038d82bea4c20ceb2ba0474fd5ae154a522b852f7e3016a54ecf7676f357c3e395565cae16ae59b37b0f423d36ae3"/>
+    </Policies>
+    <ProxyEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:67edb187a6c868972da61de434c51210b6f3694299baa82d806a87201835479fe80d216d47e483778ebaa7566eec7fc3eb23b5a93baaed6e32046b83ad590e82"/>
+    </ProxyEndpoints>
+    <Resources/>
+    <SharedFlows/>
+    <TargetEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:a8a7c03c65549065f2e8e4f891a9ccfb975b51f246da266d157b128d65bf5c675402b322ad84b7e9f32915654676faefd6ed84fac4f903e6ddc01b4dc3a0e8b0"/>
+    </TargetEndpoints>
+</Manifest>

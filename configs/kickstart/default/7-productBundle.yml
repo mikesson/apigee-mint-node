@@ -1,4 +1,5 @@
 # API PRODUCT BUNDLE CONFIGURATION
+# currently contains one API product, but can contain multiple
 ---
 description: 'Monetization Kickstart Product Bundle'
 displayName: 'Mint Kickstart Product Bundle v1'

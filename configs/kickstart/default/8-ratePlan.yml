@@ -1,3 +1,10 @@
+# RATE PLAN
+# defines the charging model. This rate plan contains following charges:
+# - Setup fee: 100
+# - Volume-banded rate card
+#        0 -     100 : 0.05
+#      100 -   10000 : 0.025
+#    10000 - 1000000 : 0.0125
 ---
 published: true
 advance: false

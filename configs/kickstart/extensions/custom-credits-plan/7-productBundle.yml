@@ -1,0 +1,9 @@
+# API PRODUCT BUNDLE CONFIGURATION
+# currently contains one API product, but can contain multiple
+---
+description: 'Credits-based API Product Bundle'
+displayName: 'Mint Kickstart Bundle Credits v1'
+name: 'mint-kickstart-bundle-credits-v1'
+product:
+- id: 'mint-kickstart-product-credits-v1'
+status: 'CREATED'

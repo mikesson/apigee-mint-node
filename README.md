@@ -12,6 +12,13 @@ This tool allows you to interact with Apigee Monetization settings and entities 
 * [Konwn Issues](#known-issues)
 
 
+# Latest Updates 🎉
+
+### 2020-01-06
+* The config directory has been restructured to allow for further templating, putting the default kickstart config into `/configs/kickstart/default`
+* Additional Kickstart template - you can now create a boilerplate for a custom attribute, i.e. credit-based rate plan. Go to [/configs/kickstart](https://github.com/mikesson/apigee-mint-node/tree/master/configs/kickstart) to read more
+
+
 # <a name="installandprepare"></a> Install & Prepare
 
 ## Install with NPM

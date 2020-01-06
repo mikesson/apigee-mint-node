@@ -1,3 +1,6 @@
+# TRANSACTION RECORDING PATHS
+# API Proxy paths for which the transaction recording policy applies
+# In this case, it's the same across all paths, but this can be customized
 - 
   name: "/"
   policies: 

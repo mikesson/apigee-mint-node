@@ -1,0 +1,42 @@
+# ORGANIZATION PROFILE
+# Docs: https://docs.apigee.com/api-platform/monetization/edit-organization-profile
+---
+# your organization's address
+address: 
+- address1: "Kickstart Street"
+  city: "Kickstart City"
+  country: "UK"
+  # as you can have multiple addresses, give the address a unique ID
+  id: "kickstart-street"
+  isPrimary: "true"
+  state: "London"
+  zip: "SW1W 123"
+approveTrusted: "true"
+approveUntrusted: "false"
+billingCycle: "CALENDAR_MONTH"
+country: "UK"
+currency: "EUR"
+# dynamically set
+description: "!INCLUDE{orgName}" 
+hasBillingAdjustment: "true"
+hasBroker: "false"
+hasSelfBilling: "false"
+hasSeparateInvoiceForProduct: "false"
+# dynamically set
+id: "!INCLUDE{orgName}"
+issueNettingStmt: "false"
+logoUrl: "https://pngimage.net/wp-content/uploads/2018/06/sample-logo-png-6.png"
+# dynamically set
+name: "!INCLUDE{orgName}" 
+nettingStmtPerCurrency: "false"
+regNo: "Kickstart-RegNo"
+selfBillingAsExchOrg: "false"
+selfBillingForAllDev: "false"
+separateInvoiceForFees: "false"
+status: "ACTIVE"
+supportedBillingType: "BOTH"
+taxEngineExternalId: "KICKSTART-TAX-ENGINE-01"
+taxModel: "HYBRID"
+taxNexus: "US"
+taxRegNo: "Kickstart-RegNo"
+timezone: "UTC"

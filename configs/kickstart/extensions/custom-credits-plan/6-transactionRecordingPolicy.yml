@@ -1,0 +1,35 @@
+# TRANSACTION RECORDING POLICY
+# by default inserted in the response flow (see 5-transactionRecordingPaths.yml)
+# custom attribute "credit-charge" included as new variable (line 17)
+---
+async: false
+continueOnError: false
+displayName: Transaction Policy
+enabled: true
+faultRules: []
+extractions:
+- Variable:
+    # the response phrase (i.e. OK) from the target response 
+    name: response.reason.phrase
+    pattern:
+    - ignoreCase: true
+      value: "{mint.tx.status}"
+- Variable:
+    # definition of the custom attribute used to calculate the charge
+    name: credit-charge
+    pattern:
+    - ignoreCase: true
+      value: "{mint.tx.cust_att1}"
+ignoreUnresolvedVariables: true
+name: "/"
+policyType: ExtractVariables
+source:
+  clearPayload: false
+  value: response
+jSONPayload:
+  variable: []
+xMLPayload:
+  variable: []
+  namespaces: []
+  stopPayloadProcessing: false
+variablePrefix: apigee

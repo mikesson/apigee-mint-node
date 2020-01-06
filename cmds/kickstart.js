@@ -79,7 +79,7 @@ module.exports = async (args) => {
     } else {
       var dirInEnvVar = (process.env.DIR_CONFIG) ? process.env.DIR_CONFIG : false
       if (!dirInEnvVar) {
-        CONFIGDIR = 'config'
+        CONFIGDIR = 'configs/kickstart/default'
         logger.info('CONFIGDIR parameter not found in args or as environment variable, defaulting to: "' + CONFIGDIR + '"')
       } else {
         CONFIGDIR = dirInEnvVar
@@ -217,7 +217,6 @@ module.exports = async (args) => {
 
     // Validation
 
-
     logger.debug('checking if API product exists ...')
     var API_PRODUCT_ID = configApiProduct.name
     logger.silly('set API_PRODUCT_ID=' + API_PRODUCT_ID)
@@ -234,6 +233,7 @@ module.exports = async (args) => {
     logger.debug('ok, API product name is unique')
     logger.info(figures('✔︎ ') + 'Validation Complete')
 
+
     const response = await apicaller.updateOrgProfile(configOrgProfile)
     logger.debug('response status (updateOrgProfile()) is ' + response.status)
     logger.debug('response is:')
@@ -242,8 +242,8 @@ module.exports = async (args) => {
       logger.error('call to obtain org details failed with status code ' + response.status)
       process.exit()
     }
-    
     logger.info(figures('✔︎ ') + 'Organization Profile Updated')
+
 
     var defaultCurrencyAlreadyExists = false;
     if (CONSIDER_EXISTING_SETTINGS == 'true') {
@@ -377,8 +377,9 @@ module.exports = async (args) => {
       environments: ENV,
     }
 
+
     opts.api = APIGEE_PROXY_NAME
-    var targetDir = path.join(process.cwd(), 'proxies')
+    var targetDir = CONFIGDIR
     logger.debug('selected proxy directory: ' + targetDir)
     opts.directory = targetDir
 
@@ -416,9 +417,6 @@ module.exports = async (args) => {
       process.exit()
     }
     logger.info(figures('✔︎ ') + 'API Product created')
-
-
-
 
 
     const respDeveloperApp = await apicaller.createDeveloperApp(configDeveloperApp, DEVELOPER_EMAIL)
@@ -509,7 +507,13 @@ module.exports = async (args) => {
     sleep.sleep(10)
 
 
-    var urlToCall = PROXY_URL + '/ip?apikey=' + API_KEY
+    // depending on what kickstart type (proxy), different path is appended to test URL
+    if(String(PROXY_URL).includes("credits")){
+      var urlToCall = PROXY_URL + '/anything?apikey=' + API_KEY + '&credit-charge=10'
+    }else{
+      var urlToCall = PROXY_URL + '/ip?apikey=' + API_KEY
+    }
+    
     logger.debug('combined URL to call a GET to: ' + urlToCall)
     logger.info('Executing three test calls now ...')
     var i;
@@ -527,7 +531,6 @@ module.exports = async (args) => {
 
     logger.info('Waiting 10 seconds before re-checking usage ...')
     sleep.sleep(10)
-
 
     const respDeveloperUsageAfterCall = await apicaller.getDeveloperUsage(DEVELOPER_ID)
     logger.debug('response status (getDeveloperUsage()) (after API calls) is ' + respDeveloperUsageAfterCall.status)

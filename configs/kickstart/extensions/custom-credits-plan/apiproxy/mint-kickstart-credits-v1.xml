@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="2" name="mint-kickstart-credits-v1">
+    <Basepaths>/mint/kickstart/credits/v1</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1578053493446</CreatedAt>
+    <CreatedBy>defaultUser</CreatedBy>
+    <Description>API Proxy for Monetization - Credits-based charge</Description>
+    <DisplayName>Mint Kickstart Credits Based v1</DisplayName>
+    <LastModifiedAt>1578060031332</LastModifiedAt>
+    <LastModifiedBy>defaultUser</LastModifiedBy>
+    <ManifestVersion>SHA-512:0e1c0e04028985e2982b876f45b1a924a744e4a167d6c59c2cbb97b573f16a3871cf5dd352508d4de8bc4db97098c142d4797fa5de3bf74e47d7b3af0d992504</ManifestVersion>
+    <Policies>
+        <Policy>Extract-Credit-Charge-JSON</Policy>
+        <Policy>Monetization-Limits-Check</Policy>
+        <Policy>Product-Quota</Policy>
+        <Policy>Spike-Arrest</Policy>
+        <Policy>Verify-API-Key</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

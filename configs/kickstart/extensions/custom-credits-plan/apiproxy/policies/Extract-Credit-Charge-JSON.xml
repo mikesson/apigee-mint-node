@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="Extract-Credit-Charge-JSON">
+    <DisplayName>Extract-Credit-Charge-JSON</DisplayName>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <Source>response</Source>
+    <JSONPayload>
+        <Variable name="credit-charge" type="string">
+            <JSONPath>$.args.credit-charge</JSONPath>
+        </Variable>
+    </JSONPayload>
+</ExtractVariables>

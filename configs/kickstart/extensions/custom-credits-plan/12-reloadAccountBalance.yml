@@ -1,0 +1,6 @@
+# RELOAD DEVELOPER ACCOUNT BALANCE OPERATION
+---
+amount: 1000
+supportedCurrency:
+  # dynamically set
+  id: "!INCLUDE{currencyId}"

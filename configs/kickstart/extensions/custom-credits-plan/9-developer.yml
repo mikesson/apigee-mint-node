@@ -1,0 +1,27 @@
+# DEVELOPER
+---
+companies: []
+# change to an accessible email account if you want to use it in combination with the dev portal
+email: "developer@organization.com" 
+firstName: "Developer"
+lastName: "Jane"
+userName: "developerjane"
+organizationName: '!INCLUDE{apigee-org}' # set during runtime
+status: active
+attributes:
+- name: MINT_BILLING_TYPE
+  value: PREPAID
+- name: MINT_DEVELOPER_ADDRESS
+  value: '{"address1":"5 Code Road","address2":"","city":"London","country":"UK","isPrimary":"true","state":"London","zip":"SW1W 123"}'
+- name: MINT_REGISTRATION_ID
+  value: KICKSTART-REG
+- name: MINT_TAX_EXEMPT_AUTH_NO
+  value: '12345'
+- name: MINT_DEVELOPER_PHONE
+  value: '1555444333'
+- name: MINT_DEVELOPER_LEGAL_NAME
+  value: Kickstart Devs Ltd
+- name: MINT_DEVELOPER_TYPE
+  value: UNTRUSTED
+- name: MINT_ROLES
+  value: '["Monetization Administrator"]'

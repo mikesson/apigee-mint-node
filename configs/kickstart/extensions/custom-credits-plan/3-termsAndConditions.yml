@@ -1,0 +1,8 @@
+# TERMS AND CONDITIONS
+# Docs: https://docs.apigee.com/api-platform/monetization/specify-terms-and-conditions
+---
+url: "https://apigee.com/about/sites/mktg-new/files/ApigeeGeneralTermsAndConditions.pdf"
+tncText: "General Terms and Conditions"
+version: "0.1"
+# set the start date of the T&Cs in YYYY-MM-DD HH:MM:SS format
+startDate: "2020-01-03 00:00:00"
