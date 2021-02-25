@@ -9,8 +9,8 @@
 published: true
 advance: false
 type: STANDARD
-startDate: '2019-09-02 00:00:00'
-endDate: '2019-09-03 00:00:00'
+startDate: '2021-02-25 00:00:00'
+endDate: '2022-09-03 00:00:00'
 recurringStartUnit: 1
 recurringType: CALENDAR
 setUpFee: 100
@@ -27,7 +27,7 @@ currency:
 displayName: 'Kickstart Plan v1'
 name: 'Kickstart Plan v1'
 description: 'Kickstart Plan v1'
-paymentDueDays: '30' 
+paymentDueDays: '30'
 id: # not required
 freemiumUnit: 0
 ratePlanDetails:

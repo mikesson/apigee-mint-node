@@ -17,8 +17,8 @@
   "author": "Mike Annau",
   "license": "MIT",
   "dependencies": {
-    "apigeetool": "^0.10.0",
-    "axios": ">=0.19.0",
+    "apigeetool": "^0.15.0",
+    "axios": ">=0.21.1",
     "chalk": "^2.4.2",
     "console.table": "^0.10.0",
     "delay": "^4.3.0",
@@ -26,12 +26,12 @@
     "figures": "^3.1.0",
     "fs": "0.0.1-security",
     "js-yaml": "^3.13.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "ora": "^3.4.0",
     "path": "^0.12.7",
     "sleep": "^6.1.0",
-    "table": "^5.4.6",
-    "winston": "^3.2.1"
+    "table": "^6.0.7",
+    "winston": "^3.3.3"
   },
   "repository": {
     "type": "git",

@@ -63,7 +63,7 @@ For more information about Apigee, refer to the [Apigee Docs](http://docs.apigee
 
 # <a name="about"></a> About
 
-This tool uses Apigee's Monetization module. If you want to learn more about it, read about our [API monetization concepts](https://docs.apigee.com/api-platform/monetization/basics-monetization) within Apigee. 
+This tool uses Apigee's Monetization module. If you want to learn more about it, read about our [API monetization concepts](https://docs.apigee.com/api-platform/monetization/basics-monetization) within Apigee.
 
 This high-level diagram shows the entities involved when using Apigee with Monetization:
 
@@ -78,6 +78,7 @@ The parameters below are used across all operations. For more specific parameter
 |---------------| --------------| --------------|------------| ----------|
 | `--username -u` | Your Apigee account username | `APIGEE_USERNAME` | Yes | / |
 | `--password -p` | Your Apigee account password | `APIGEE_PASSWORD` | Yes | / |
+| `--token -t` | Your Apigee access token | `APIGEE_TOKEN` | Optional (use instead of -u & -p) | / |
 | `--organization -o` | The name of the organization to operate on| `APIGEE_ORGANIZATION` | Yes | / |
 | `--logLevel -l` | Log level, defaults to `info` if not specified | `LOG_LEVEL` | Optional | `info` |
 
@@ -100,7 +101,7 @@ Recommendation is to keep log level at `debug` when facing issues, `info` when u
 
 Jump to the details from this table:
 
-|Scenario      | 
+|Scenario      |
 |---------------|
 | [end-to-end setup: configuring a monetized API with subscribed application and an account balance](#cmd-kickstart) |
 | [adding prepaid balance to a developer account](#addprepaidbalance) |
@@ -132,7 +133,7 @@ Executes kickstart configuration for specified organization and environment, con
 
 ```apigee-mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c true```
 
-Executes kickstart configuration for specified organization and environment, overwriting/ignoring existing settings 
+Executes kickstart configuration for specified organization and environment, overwriting/ignoring existing settings
 
 ```apigee-mint kickstart -u user@domain.com -o my-nonprod -e test -l info -c false```
 
@@ -206,7 +207,7 @@ export DIR_CONFIG=config-{yourSuffix}
 
 - 4.3 Set end date of rate plan (any date in the future)
 
-  `8-ratePlan.yml -> endDate` 
+  `8-ratePlan.yml -> endDate`
 
 
 5. Make sure you're in the repo's root directory
@@ -226,7 +227,7 @@ For reference, this is how a successful kickstart execution looks like:
 
 ### Customizations
 
-You can use tour copied config directory to adjust all setup settings. Here's a list of common customizations, referencing the target file name and attribute: 
+You can use tour copied config directory to adjust all setup settings. Here's a list of common customizations, referencing the target file name and attribute:
 
 #### Set new API Proxy name:
 
@@ -323,10 +324,10 @@ The resource type you want to perform the action on.
 
 (required, `<identifier>`, default: `N/A`)
 
-The resource or search identifier. For some commands, multiple of those input parameters are required (order matters). 
+The resource or search identifier. For some commands, multiple of those input parameters are required (order matters).
 
 
- 
+
 ### Available actions
 
 #### Summary
@@ -334,7 +335,7 @@ The resource or search identifier. For some commands, multiple of those input pa
 The table below lists available actions and required parameters for each.
 
 |Action                 | Parameter 1       | Parameter 2 | Parameter 3 | Parameter 4 | Parameter 5 | Parameter 6 |
-|-----------------------| ------------------|---------------| --------------|---------------| --------------|---------------| 
+|-----------------------| ------------------|---------------| --------------|---------------| --------------|---------------|
 | `list`                | `-r resourceType` |  `/` |  `/` |
 | `get`                 | `-r resourceType` |  `-i resourceID` |  `/` |
 | `delete`              | `-r resourceType` | `-i resourceID` | `/` |
@@ -379,7 +380,7 @@ The table below lists available actions and required parameters for each.
 
 
 
-### <a name="addprepaidbalance"></a> Add prepaid balance to a developer account 
+### <a name="addprepaidbalance"></a> Add prepaid balance to a developer account
 
 Example:
 ```
@@ -410,7 +411,7 @@ You can read more about deleting Monetization data [on Apigee docs here](https:/
 
 
 ## <a name="cmd-wheresMyConfig"></a> wheresMyConfig
- 
+
 This command helps you verify the currently selected target directory for the configuration files. Use this command if you're unsure about where the `kickstart` command will pick up the YML files.
 
 Example:

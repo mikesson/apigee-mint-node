@@ -1,19 +1,19 @@
-/**                                                                             
-  Copyright 2019 Google LLC                                                     
-                                                                                
-  Licensed under the Apache License, Version 2.0 (the "License");               
-  you may not use this file except in compliance with the License.              
-  You may obtain a copy of the License at                                       
-                                                                                
-      https://www.apache.org/licenses/LICENSE-2.0                               
-                                                                                
-  Unless required by applicable law or agreed to in writing, software           
-  distributed under the License is distributed on an "AS IS" BASIS,             
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.      
-  See the License for the specific language governing permissions and           
-  limitations under the License.                                                
-                                                                                
-*/ 
+/**
+  Copyright 2019 Google LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+*/
 
 const axios = require('axios')
 const figures = require('figures');
@@ -38,8 +38,7 @@ var logger;
 let UNAME;
 let PASS;
 let ORG;
-
-let AUTH_TOKEN;
+let TOKEN;
 
 module.exports = {
 
@@ -383,44 +382,33 @@ module.exports = {
 
   setCredentialsAndOrg: (args) => {
     logger.debug('Setting credentials and org now ...');
-    UNAME = process.env.APIGEE_USERNAME;
-    PASS = process.env.APIGEE_PASSWORD;
-    ORG = process.env.APIGEE_ORGANIZATION;
-    var requiredVarsFoundInEnv = false;
-    if (UNAME && PASS && ORG) {
-      requiredVarsFoundInEnv = true;
-      logger.debug('username, password and organization name found as environment variables');
-      logger.debug('taken from env vars: ' + ' ' + UNAME + ' ********** ' + ORG);
-    }
-    var UNAME_cmd = (args.u) ? args.u : args.username;
-    var PASS_cmd = (args.p) ? args.p : args.password;
-    var ORG_cmd = (args.o) ? args.o : args.organization;
-    if (!UNAME_cmd && !PASS_cmd && !ORG_cmd) {
-      if (requiredVarsFoundInEnv) {
-        logger.debug('args not found in command, taking environment variables');
-        setRequestDefaults();
-        return [UNAME, PASS, ORG];
-      } else {
-        logger.error('required args (u (user),p (password),o (organization)) not found in command, quitting');
-        return false;
+    const UNAME_cmd = args.u ? args.u : args.username;
+    const PASS_cmd = args.p ? args.p : args.password;
+    const ORG_cmd = args.o ? args.o : args.organization;
+    const TOKEN_cmd = args.t ? args.t : args.token;
+
+    UNAME = UNAME_cmd ? UNAME_cmd : process.env.APIGEE_USERNAME
+    PASS = PASS_cmd ? PASS_cmd : process.env.APIGEE_PASSWORD
+    ORG = ORG_cmd ? ORG_cmd : process.env.APIGEE_ORGANIZATION;
+    TOKEN = TOKEN_cmd ? TOKEN_cmd : process.env.APIGEE_TOKEN;
+
+    if ((TOKEN || (UNAME && PASS)) && ORG_cmd) {
+      setRequestDefaults();
+      return {
+        username: UNAME,
+        password: PASS,
+        organization: ORG,
+        token: TOKEN
       }
     } else {
-      logger.debug('args found in command, thus overwriting environment variables');
-      UNAME = UNAME_cmd;
-      PASS = PASS_cmd;
-      ORG = ORG_cmd;
-      logger.debug('taken from args: ' + ' ' + UNAME + ' ********** ' + ORG);
-      setRequestDefaults();
-      return [UNAME, PASS, ORG];
-      return true;
+      logger.error('required args (t (token), u (user),p (password),o (organization)) not found in command or env variables, quitting');
+      process.exit(-1)
     }
   },
 
   setLogger: (currentLogger) => {
     logger = currentLogger;
-    return [UNAME, PASS, ORG];;
   },
-
 
   listResources: async (resource) => {
     var url;
@@ -510,7 +498,7 @@ module.exports = {
 }
 
 function setRequestDefaults() {
-  AUTH_TOKEN = 'Basic ' + Buffer.from(UNAME + ':' + PASS).toString('base64');
+  AUTH_TOKEN = TOKEN ? `Bearer ${TOKEN}` : 'Basic ' + Buffer.from(UNAME + ':' + PASS).toString('base64');
   axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
   axios.defaults.headers.post['Content-Type'] = 'application/json';
   logger.debug('default auth header successfully set');
